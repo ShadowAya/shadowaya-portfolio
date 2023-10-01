@@ -1,0 +1,38 @@
+
+.warning {
+
+    display: none;
+
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgb(218, 211, 159);
+    z-index: 100;
+    width: 100%;
+    padding: 10px 20px;
+
+    color: black;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    &.visible {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    p {
+        margin-right: 65px;
+    }
+
+    svg {
+        position: absolute;
+        right: 45px;
+        top: calc(50% - 20px);
+        padding: 10px;
+    }
+
+}

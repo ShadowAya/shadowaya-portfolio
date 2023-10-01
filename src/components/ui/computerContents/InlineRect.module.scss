@@ -1,0 +1,18 @@
+
+.container {
+
+    color: black;
+    transition: all 0.2s ease-in-out;
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    background-color: white;
+    padding: 20px;
+    margin: 5px;
+    width: calc(100% - 50px);
+
+    border-radius: 10px;
+
+}

@@ -1,0 +1,86 @@
+.monitor-main,
+.monitor-secondary {
+    height: 450px;
+    aspect-ratio: 16/9;
+    background-color: var(--element-col);
+
+    box-sizing: border-box;
+    padding: 15px 15px 40px 15px;
+    transform: translateZ(1px);
+
+    > div:nth-child(1) {
+        height: 100%;
+        width: 100%;
+        background-color: var(--element-col);
+
+        position: relative;
+
+        height: 100%;
+        width: 100%;
+
+        box-sizing: border-box;
+        padding: 20px;
+        transition: all 0.2s ease-in-out;
+
+        &.off {
+            background-color: black;
+            pointer-events: none;
+            overflow: hidden;
+
+            * {
+                opacity: 0;
+                border: none;
+            }   
+
+        }
+
+    }
+
+    > div:nth-child(2) {
+
+        margin-top: 20px;
+        margin-left: calc(100% - 105px);
+
+        display: flex;
+        gap: 10px;
+
+        > div:nth-child(1),
+        > div:nth-child(2) {
+            height: 10px;
+            background-color: var(--element-col);
+        }
+
+        div:nth-child(1) { width: 70px; }
+        div:nth-child(2) { width: 25px; }
+
+    }
+
+}
+
+.monitor-main {
+
+    > div:nth-child(1) {
+        overflow: auto;
+    }
+
+}
+
+.monitor-secondary {
+    aspect-ratio: 18/9;
+    height: 320px;
+    transform: translate(-210%) rotate(90deg) rotateX(40deg) translateZ(120px);
+
+    > div:nth-child(1) {
+
+        overflow: hidden;
+
+        > div {
+            transform: rotate(-90deg) translate(75%, 27%);
+            width: 250px;
+            height: 600px;
+            user-select: none;
+        }
+
+    }
+
+}

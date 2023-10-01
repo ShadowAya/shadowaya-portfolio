@@ -1,0 +1,38 @@
+
+
+.container {
+
+    position: fixed;
+    top: 20%;
+    right: 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    > div:nth-child(1) {
+
+        position: absolute;
+        top: -110%;
+        right: -150%;
+        height: 300%;
+        width: 250%;
+        background:
+            radial-gradient(ellipse at center, #131313A0, transparent 60%),
+            radial-gradient(ellipse at center, #131313A0, transparent 50%),
+            radial-gradient(ellipse at center, #131313A0, transparent 50%),
+            radial-gradient(ellipse at center, #131313A0, transparent 50%),
+            radial-gradient(ellipse at center, #131313A0, transparent 30%);
+
+    }
+
+    a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        flex-direction: column;
+        filter: drop-shadow(0px 5px 8px #000000);
+    }
+
+}
