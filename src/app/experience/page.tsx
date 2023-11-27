@@ -79,8 +79,8 @@ export default function Page() {
         </ComputerWindow>
         <ComputerWindow
             top={200}
-            left={440}
-            height={350}
+            left={430}
+            height={320}
             width={280}
             delay={0.5}
         >
