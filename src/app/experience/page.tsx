@@ -4,6 +4,8 @@ import StackItem from "@/components/ui/computerContents/StackItem";
 import Columns from "@/components/ui/computerContents/Columns";
 import Opacity from "@/components/ui/computerContents/Opacity";
 import { Metadata } from "next/types";
+import Spacer from "@/components/ui/keyboardParts/Spacer";
+import Image from "next/image";
 
 export const metadata: Metadata = {
     title: "experience"
@@ -15,8 +17,8 @@ export default function Page() {
         <ComputerWindow
             top={40}
             left={40}
-            height={440}
-            width={450}
+            height={510}
+            width={410}
             title={'experience'}
         >
             <h2>My primary stack</h2>
@@ -30,9 +32,25 @@ export default function Page() {
                     <h4>Frontend</h4>
                     <StackItem>
                         <Iconify icon="akar-icons:nextjs-fill" color="white" width="30" />
-                        <p>NextJS</p>
+                        <p>NextJS<br /><Opacity opacity={0.7}>(App)</Opacity></p>
+                    </StackItem>
+                    <StackItem>
                         <Iconify icon="mdi:react" color="white" width="30" />
                         <p>React</p>
+                    </StackItem>
+                    <h3>Databases</h3>
+                    <StackItem>
+                        <Iconify icon="akar-icons:postgresql-fill" color="white" width="30" />
+                        <p>Postgres<br /><Opacity opacity={0.7}>(& SQL)</Opacity></p>
+                    </StackItem>
+                    <StackItem>
+                        <Image
+                            src="/convex-logo.svg"
+                            height={30}
+                            width={30}
+                            alt="Convex Logo"
+                        />
+                        <p>Convex</p>
                     </StackItem>
                 </>
                 <>
@@ -41,18 +59,27 @@ export default function Page() {
                         <Iconify icon="skill-icons:expressjs-light" color="white" width="30" />
                         <p>Express</p>
                     </StackItem>
+                    <StackItem>
+                        <Iconify icon="simple-icons:fastify" color="white" width="30" />
+                        <p>Fastify</p>
+                    </StackItem>
+                    <StackItem>
+                        <Iconify icon="devicon-plain:trpc" color="white" width="30" />
+                        <p>tRPC</p>
+                    </StackItem>
+                    <Spacer size={50} />
+                    <h3>Chat bots</h3>
+                    <StackItem>
+                        <Iconify icon="ic:baseline-discord" color="white" width="30" />
+                        <p>Discord.js</p>
+                    </StackItem>
                 </>
             </Columns>
-            <h3>Chat bots</h3>
-            <StackItem>
-                <Iconify icon="ic:baseline-discord" color="white" width="30" />
-                <p>Discord.js</p>
-            </StackItem>
             
         </ComputerWindow>
         <ComputerWindow
             top={200}
-            left={400}
+            left={440}
             height={350}
             width={280}
             delay={0.5}
@@ -72,7 +99,7 @@ export default function Page() {
             </StackItem>
         </ComputerWindow>
         <ComputerWindow
-            top={410}
+            top={500}
             left={80}
             height={350}
             width={280}
@@ -102,7 +129,7 @@ export default function Page() {
 
         </ComputerWindow>
         <ComputerWindow
-            top={500}
+            top={480}
             left={380}
             height={280}
             width={250}

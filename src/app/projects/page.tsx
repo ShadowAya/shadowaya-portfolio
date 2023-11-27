@@ -13,8 +13,8 @@ export default function Page() {
     return (<>
         <ComputerWindow
             top={30}
-            left={30}
-            height={200}
+            left={250}
+            height={300}
             width={400}
             title={'projects'}
         >
@@ -22,8 +22,8 @@ export default function Page() {
             <p>Some (so far) small projects. I&apos;m getting to uploading more to GitHub.</p>
         </ComputerWindow>
         <ComputerWindow
-            top={100}
-            left={400}
+            top={200}
+            left={20}
             height={230}
             width={330}
             title={'github'}
@@ -33,8 +33,8 @@ export default function Page() {
             <MyRepoCard repo={'anchor-card'} />
         </ComputerWindow>
         <ComputerWindow
-            top={350}
-            left={400}
+            top={240}
+            left={360}
             height={280}
             width={330}
             title={'other'}
