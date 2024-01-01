@@ -138,21 +138,33 @@ export default function Page() {
         >
             <h2>Plans</h2>
             <StackItem>
-                <Iconify icon="fa6-solid:c" color="white" width="20" />
+                <Image
+                    src="/makogate.png"
+                    alt="Makogate Logo"
+                    height={22}
+                    width={22}
+                />
                 <p>
-                    C
-                    <Opacity opacity={0.5}> and other </Opacity>
-                    Low level
-                    <Opacity opacity={0.7}><br />(studying)</Opacity>
+                    <Opacity opacity={0.5}>Finish</Opacity> Makogate
+                    <Opacity opacity={0.7}><br />(current side project)</Opacity>
                 </p>
             </StackItem>
             <StackItem>
+                <Iconify icon="file-icons:go-old" color="white" width="20" />
+                <p>
+                    <span>
+                        Golang <Opacity opacity={0.5}>/ more C#</Opacity>
+                    </span>
+                    <Opacity opacity={0.7}><br />(for backend)</Opacity>
+                </p>
+            </StackItem>
+            {/* <StackItem>
                 <Iconify icon="icon-park-twotone:chip" color="white" width="30" />
                 <p>
                     More Hardware
                     <Opacity opacity={0.7}> (namely ESP32)</Opacity>
                 </p>
-            </StackItem>
+            </StackItem> */}
             <StackItem>
                 <Iconify icon="material-symbols:android" color="white" width="30" />
                 <p>
