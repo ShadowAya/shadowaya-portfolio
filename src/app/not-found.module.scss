@@ -1,0 +1,59 @@
+.notfound {
+
+    background-color: #0078d7;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    box-sizing: border-box;
+    padding: 25px 35px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    h1 {
+        color: white;
+        font-size: 85px;
+        font-weight: normal;
+        margin: 0;
+        padding: 0;
+    }
+
+    p {
+        color: white;
+        font-size: 16px;
+        font-weight: normal;
+        margin: 0;
+        padding: 0;
+    }
+
+    > div {
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+
+        p {
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+
+            > span:nth-child(1) {
+                margin-bottom: 15px;
+            }
+
+        }
+
+        img {
+            width: 65px;
+            height: 65px;
+        }
+
+    }
+
+}
