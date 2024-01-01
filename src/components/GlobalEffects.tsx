@@ -38,6 +38,14 @@ export default function GlobalEffects({ children }: GlobalEffectsProps) {
     const hasPointerDevice = device?.hasPointer;
 
     const handleMouseMove = (e: MouseEvent) => {
+
+        if (
+            activeRotationKeys.current.down ||
+            activeRotationKeys.current.up ||
+            activeRotationKeys.current.left ||
+            activeRotationKeys.current.right
+        ) return;
+
         const x = 1 - (e.clientX / window.innerWidth);
         const y = 1 - (e.clientY / window.innerHeight);
 
