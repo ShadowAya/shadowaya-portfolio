@@ -2,6 +2,7 @@ import ComputerWindow from "@/components/ui/computerContents/ComputerWindow";
 import InlineLink from "@/components/ui/computerContents/InlineLink";
 import MyRepoCard from "@/components/ui/computerContents/MyRepoCard";
 import Opacity from "@/components/ui/computerContents/Opacity";
+import Image from "next/image";
 import { Metadata } from "next/types";
 
 export const metadata: Metadata = {
@@ -24,11 +25,19 @@ export default function Page() {
         <ComputerWindow
             top={200}
             left={20}
-            height={230}
+            height={400}
             width={330}
-            title={'github'}
             delay={0.5}
-        >   
+        >
+            <InlineLink href={"https://www.wiseway.cz/"}>
+                <Image
+                    src="/wiseway.png"
+                    alt="wiseway"
+                    width={45}
+                    height={45}
+                />
+                <p>Wiseway</p>
+            </InlineLink>
             <h3>Via GitHub</h3>
             <MyRepoCard repo={'anchor-card'} />
         </ComputerWindow>
