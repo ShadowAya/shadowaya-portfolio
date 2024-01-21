@@ -25,11 +25,20 @@ export default function Page() {
         <ComputerWindow
             top={200}
             left={20}
-            height={400}
+            height={440}
             width={330}
             delay={0.5}
         >
-            <InlineLink href={"https://www.wiseway.cz/"}>
+            <InlineLink href={"https://makogate.com/"}>
+                <Image
+                    src="/makogate.png"
+                    alt="makogate"
+                    width={45}
+                    height={45}
+                />
+                <p>Makogate</p>
+            </InlineLink>
+            <InlineLink href={"https://wiseway.cz/"}>
                 <Image
                     src="/wiseway.png"
                     alt="wiseway"
