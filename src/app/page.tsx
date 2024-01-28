@@ -6,7 +6,7 @@ import moment from 'moment-timezone';
 
 export default function Home() {
 
-    const birthday = moment.tz(new Date(2004, 0, 28), "Europe/Prague");
+    const birthday = moment.tz(new Date(2004, 0, 27), "Europe/Prague");
     const age = moment.tz("Europe/Prague").diff(birthday, 'years');
 
     return (
