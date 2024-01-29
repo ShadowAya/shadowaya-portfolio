@@ -23,7 +23,7 @@ export default function Home() {
                 <StackItem>
                     <Iconify width={25} icon="material-symbols:cake-outline" />
                     {
-                        Math.floor(age)
+                        Math.floor(age) // 28.1.2004
                     }
                 </StackItem>
                 <StackItem>
