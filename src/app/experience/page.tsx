@@ -17,7 +17,7 @@ export default function Page() {
         <ComputerWindow
             top={40}
             left={40}
-            height={510}
+            height={550}
             width={410}
             title={'experience'}
         >
@@ -32,11 +32,15 @@ export default function Page() {
                     <h4>Frontend</h4>
                     <StackItem>
                         <Iconify icon="akar-icons:nextjs-fill" color="white" width="30" />
-                        <p>NextJS<br /><Opacity opacity={0.7}>(App)</Opacity></p>
+                        <p>NextJS<br /><Opacity opacity={0.7}>(App dir)</Opacity></p>
                     </StackItem>
                     <StackItem>
                         <Iconify icon="mdi:react" color="white" width="30" />
                         <p>React</p>
+                    </StackItem>
+                    <StackItem>
+                        <Iconify icon="file-icons:vue" color="white" width="30" />
+                        <p>Vue<br /><Opacity opacity={0.7}>(Learning)</Opacity></p>
                     </StackItem>
                     <h3>Databases</h3>
                     <StackItem>
@@ -99,7 +103,7 @@ export default function Page() {
             </StackItem>
         </ComputerWindow>
         <ComputerWindow
-            top={500}
+            top={530}
             left={80}
             height={350}
             width={280}
