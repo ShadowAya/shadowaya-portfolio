@@ -1,0 +1,27 @@
+.badge {
+
+    z-index: 20;
+
+    user-select: none;
+
+    position: absolute;
+    top: -15px;
+    right: -25px;
+    background-color: rgb(255, 255, 27);
+    box-shadow:
+        0 0 10px 0 rgba(255, 255, 27, 0.5)
+    ;
+    color: black;
+
+    transform: rotate(7deg);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+
+    padding: 0.5rem 1rem;
+    border-radius: 1000px;
+    font-size: 0.9rem;
+
+}

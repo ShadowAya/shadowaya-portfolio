@@ -1,3 +1,4 @@
+import NewBadge from "@/components/NewBadge";
 import ComputerWindow from "@/components/ui/computerContents/ComputerWindow";
 import InlineLink from "@/components/ui/computerContents/InlineLink";
 import MyRepoCard from "@/components/ui/computerContents/MyRepoCard";
@@ -48,7 +49,10 @@ export default function Page() {
                 <p>Wiseway</p>
             </InlineLink>
             <h3>Via GitHub</h3>
-            <MyRepoCard repo={'anchor-card'} />
+            <div style={{position: 'relative'}}>
+                <MyRepoCard repo={'anchor-card'} />
+                <NewBadge text={'Added to HACS'} />
+            </div>
         </ComputerWindow>
         <ComputerWindow
             top={240}
