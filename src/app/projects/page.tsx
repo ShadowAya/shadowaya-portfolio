@@ -21,7 +21,10 @@ export default function Page() {
             title={'projects'}
         >
             <h2>Projects</h2>
-            <p>Some (so far) small projects. I&apos;m getting to uploading more to GitHub.</p>
+            <p>
+                Here&apos;s some of my projects.
+                Feel free to check them out!
+            </p>
         </ComputerWindow>
         <ComputerWindow
             top={200}
