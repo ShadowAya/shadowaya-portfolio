@@ -51,6 +51,15 @@ export default function Page() {
                 />
                 <p>Wiseway</p>
             </InlineLink>
+            <InlineLink href={"/lethal-calculator"}>
+                <Image
+                    src="/lethal-calculator.png"
+                    alt="lethal-calculator"
+                    width={45}
+                    height={45}
+                />
+                <p>Lethal Calculator</p>
+            </InlineLink>
             <h3>Via GitHub</h3>
             <div style={{position: 'relative'}}>
                 <MyRepoCard repo={'anchor-card'} />
