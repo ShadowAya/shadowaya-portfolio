@@ -53,7 +53,7 @@ export function ScreenProfitQuota() {
                     <div className={styles['with-icon']}>
                         <p>{
                             
-                            (values.profitQuota + values.currentCredits) > (itemCosts + values.moonCost) ?
+                            (values.profitQuota + values.currentCredits) > (itemCosts + values.moonCost + values.extraCustomItemsCost) ?
                             values.profitQuota
                             : normalizedRequiredSell
 
