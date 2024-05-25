@@ -1,0 +1,54 @@
+
+.item {
+    user-select: none;
+
+    width: 100%;
+    height: 30px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    position: relative;
+
+    span {
+        margin-top: 3px;
+    }
+
+    > div {
+
+        display: flex;
+        align-items: center;
+
+    }
+
+}
+
+.amount {
+    min-width: 35px;
+    text-align: center;
+}
+
+.cost {
+    width: 65px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    gap: 5px;
+    font-size: 18px;
+    opacity: 0.5;
+    margin-right: 15px;
+}
+
+.sales {
+    font-size: 18px;
+    opacity: 0.5;
+
+    input.sales-input {
+        font-size: 18px;
+        width: 30px;
+        text-align: center;
+        border: none;
+    }
+
+}

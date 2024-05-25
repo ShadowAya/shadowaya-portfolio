@@ -41,44 +41,6 @@ a {
   text-decoration: none;
 }
 
-main {
-    height: 100%;
-    transform-style: preserve-3d;
-
-    > div {
-
-        transition: all 0.5s ease-in-out;
-
-        display: grid;
-        place-items: center;
-        height: 100%;
-        width: 100%;
-
-        transform-style: preserve-3d;
-        perspective: 2000px;
-        perspective-origin: 50% 50%;
-    }
-
-}
-
-@media (max-height: 700px) or (max-width: 700px) {
-    main > div {
-        transform: scale(0.8);
-    }
-}
-
-@media (max-height: 500px) or (max-width: 500px) {
-    main > div {
-        transform: scale(0.6);
-    }
-}
-
-@media (max-height: 300px) or (max-width: 300px) {
-    main > div {
-        transform: scale(0.5);
-    }
-}
-
 .bold {
     font-weight: bold;
 }

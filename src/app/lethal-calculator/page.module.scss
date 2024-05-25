@@ -1,0 +1,38 @@
+
+.monitors {
+
+    padding-top: 100px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    perspective: 1000px;
+
+    > div {
+        display: flex;
+        gap: 7px;
+        padding: 6px 20px 20px 20px;
+        background-color: #64615d;
+    }
+
+    > div:first-of-type {
+        transform: rotateX(-15deg) scale(1.04);
+        padding: 20px 20px 6px 20px;
+        margin-bottom: -3px;
+        border-top: 12px solid #ccc2bd;
+    }
+
+    > div:last-of-type {
+        border-bottom: 12px solid #3e3c3b;
+    }
+
+}
+
+.shop {
+    padding: 20px;
+    background-color: #64615d;
+    margin-bottom: 80px;
+    border-bottom: 12px solid #3e3c3b;
+}
