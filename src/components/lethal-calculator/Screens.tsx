@@ -134,7 +134,7 @@ export function ScreenShopValue() {
             <p>PURCHASE</p>
             <p>COST:</p>
             <div className={styles['with-icon']}>
-                <span className={styles['with-credits']}><CreditIcon />{cost}</span>
+                <span className={styles['with-credits']}><CreditIcon />{Math.ceil(cost)}</span>
                 <Iconify icon="bx:calculator" height={30} opacity={0.5} />
             </div>
         </div></div></div>
