@@ -55,7 +55,10 @@ export function ScreenProfitQuota() {
                             
                             (values.profitQuota + values.currentCredits) > (itemCosts + values.moonCost + values.extraCustomItemsCost) ?
                             values.profitQuota
-                            : normalizedRequiredSell
+                            : (
+                                Math.max((requiredSell - values.profitQuota) / 5 - 15, 0) === 0 ? (itemCosts + values.moonCost + values.extraCustomItemsCost - values.currentCredits)
+                                : normalizedRequiredSell
+                            )
 
                         } /</p><Iconify icon="bx:calculator" height={30} opacity={0.5} />
                     </div>
