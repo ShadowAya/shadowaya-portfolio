@@ -29,7 +29,7 @@ export default function Page() {
         <ComputerWindow
             top={200}
             left={20}
-            height={440}
+            height={500}
             width={330}
             delay={0.5}
         >
