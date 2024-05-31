@@ -1,5 +1,5 @@
 import PercentageText from '@/components/PercentageText';
-import styles from './not-found.module.scss';
+import styles from './page.module.scss';
 import { Noto_Sans } from 'next/font/google'
 import cn from 'classnames';
 import Image from 'next/image';
