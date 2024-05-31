@@ -79,16 +79,6 @@ interface LethalValues {
 
 const LethalValues = createContext<LethalValues | undefined>(undefined);
 
-// {
-//     profitQuota: 0,
-//     deadline: 0,
-//     currentCredits: 0,
-//     shopContents: Object.keys(shopCosts).reduce((acc, key) => {
-//         acc[key as keyof typeof shopCosts] = 0;
-//         return acc;
-//     }, {} as ShopItems),
-// }
-
 export function LethalValuesProvider({ children }: { children: React.ReactNode }) {
 
     const [profitQuota, setProfitQuota] = useState(130);
