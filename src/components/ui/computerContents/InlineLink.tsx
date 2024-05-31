@@ -27,5 +27,3 @@ export default function InlineLink({ href, children, blank = true }: InlineLinkP
     )
 
 }
-
-// https://discord.com/channels/629042880618430465

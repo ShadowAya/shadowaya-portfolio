@@ -1,6 +1,5 @@
 'use client';
 
-
 import cn from 'classnames';
 import styles from './Screens.module.scss';
 import { shopCosts, useLethalValues } from './LethalValuesContext';
@@ -8,16 +7,6 @@ import ShopItem, { isEquipment } from './ShopItem';
 import CreditIcon from './CreditIcon';
 import Iconify from '../Iconify';
 
-
-interface ScreenProps {
-
-}
-
-                        // isEquipment(item) ?
-                        //     isNaN(values.sales[item]) ?
-                        //         shopCosts[item]
-                        //     : Math.round((shopCosts[item] - (shopCosts[item] * values.sales[item]/100)) * 10) / 10
-                        // : shopCosts[item]
 
 function notNaN(val: number) {
     return isNaN(val) ? 0 : val;
