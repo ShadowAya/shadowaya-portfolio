@@ -36,3 +36,23 @@
     margin-bottom: 80px;
     border-bottom: 12px solid #3e3c3b;
 }
+
+@media (max-width: 740px) {
+    .monitors {
+        margin-top: -140px;
+    }
+
+    .shop {
+        margin-bottom: -50px;
+    }
+}
+
+@media (max-width: 500px) {
+    .monitors {
+        margin-top: -300px;
+    }
+
+    .shop {
+        margin-bottom: -210px;
+    }
+}

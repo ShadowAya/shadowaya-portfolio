@@ -32,6 +32,7 @@
 
             > div {
                 display: flex;
+                align-items: center;
                 flex-direction: column;
                 min-width: 300px; /* Set your desired minimum width */
             }
@@ -40,4 +41,16 @@
 
     }
 
+}
+
+@media (max-width: 740px) {
+    .main > div > div > div {
+        transform: scale(0.8);
+    }
+}
+
+@media (max-width: 500px) {
+    .main > div > div > div {
+        transform: scale(0.5);
+    }
 }
