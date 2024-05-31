@@ -19,9 +19,20 @@ interface ScreenProps {
                         //     : Math.round((shopCosts[item] - (shopCosts[item] * values.sales[item]/100)) * 10) / 10
                         // : shopCosts[item]
 
+function notNaN(val: number) {
+    return isNaN(val) ? 0 : val;
+}
+
 export function ScreenProfitQuota() {
 
-    const values = useLethalValues();
+    const rawValues = useLethalValues();
+    const values = rawValues ? {
+        ...rawValues,
+        profitQuota: notNaN(rawValues.profitQuota),
+        currentCredits: notNaN(rawValues.currentCredits),
+        moonCost: notNaN(rawValues.moonCost),
+        extraCustomItemsCost: notNaN(rawValues.extraCustomItemsCost),
+    } : undefined;
 
     const itemCosts = values ?
         Object.entries(values.shopContents).reduce((acc, [item, val]) => (acc + (
@@ -64,7 +75,7 @@ export function ScreenProfitQuota() {
                     </div>
                     <div className={styles['with-icon']}>
                         <input
-                            value={values.profitQuota}
+                            value={rawValues!.profitQuota}
                             type="number"
                             onChange={(e) => {
                                 let val = parseInt(e.target.value);
@@ -120,7 +131,7 @@ export function ScreenCredits() {
 export function ScreenShopValue() {
 
     const values = useLethalValues();
-    const cost = (values ?
+    const cost = values ? (
         Object.entries(values.shopContents).reduce((acc, [item, val]) => (acc + (
             val * (
                     isEquipment(item) ?
@@ -129,8 +140,8 @@ export function ScreenShopValue() {
                     : Math.round((shopCosts[item] - (shopCosts[item] * values.sales[item]/100)) * 10) / 10
                 : shopCosts[item as keyof typeof shopCosts]
             )
-        )), 0)
-        : 0) + (values ? values.extraCustomItemsCost : 0);
+        )), 0) + (isNaN(values.extraCustomItemsCost) ? 0 : values.extraCustomItemsCost)
+    ) : 0;
 
     return (
         <div className={styles.screen}><div><div>
