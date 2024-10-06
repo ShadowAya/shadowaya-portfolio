@@ -1,0 +1,247 @@
+.code {
+    height: 100%;
+    width: 100%;
+    padding: 1rem 3rem 1rem 1rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-size: 3rem;
+
+
+    > div:nth-child(1) {
+        flex: 1;
+        width: calc(100% - 7rem);
+        border-radius: 20px;
+
+        background-color: black;
+        padding: 1rem 1rem 1rem 8rem;
+
+        position: relative;
+        overflow: clip;
+
+        * {
+            white-space: pre-wrap;
+        }
+
+        > .visual, > textarea {
+            height: calc(100% - 2rem);
+            width: calc(100% - 2rem);
+            position: absolute;
+            outline: none;
+            font-family: var(--wght);
+            font-size: 3rem;
+            tab-size: 4;
+        }
+
+        > textarea {
+            z-index: 2;
+            background-color: transparent;
+            caret-color: white;
+            border: none;
+            resize: none;
+            // color: transparent;
+            
+            &::-webkit-scrollbar {
+                width: 12px;
+                height: 12px;
+            }
+            
+            &::-webkit-scrollbar-track {
+                background: transparent;
+                border-radius: 10px;
+            }
+            
+            &::-webkit-scrollbar-thumb {
+                background-color: #333;
+                border-radius: 10px;
+            }
+            
+            &::-webkit-scrollbar-thumb:hover {
+                background-color: #949494;
+            } 
+
+        }
+
+        > .visual {
+            z-index: 3;
+            pointer-events: none;
+            overflow: hidden;
+
+            span {
+                text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            }
+
+            /* Keyword styles */
+            .IF, .ELSE, .FOR {
+                color: #ca505c;
+            }
+
+            /* Operators */
+            .COMMA, .NOT, .AND, .OR, .EQ, .NE, .LT, .GT, .LE, .GE, .ADD, .SUB, .MUL, .DIV, .ASSIGN {
+                color: #999b56;
+            }
+
+            /* Variables */
+            .LVAR {
+                color: #537eae;
+            }
+
+            .GVAR {
+                color: #4c875a;
+            }
+
+            /* Functions */
+            .FUNC {
+                color: #745da1;
+            }
+
+            /* String literals */
+            .STRING {
+                color: #365171;
+            }
+
+            /* Numbers */
+            .NUMBER {
+                color: #628fc1;
+            }
+
+            /* Parentheses and braces */
+            .LPAREN, .RPAREN, .LBRACE, .RBRACE {
+                color: #b66386;
+            }
+
+            /* Semicolon */
+            .SEMICOL {
+                color: #8570b4;
+            }
+
+            /* Mismatch (highlight invalid characters) */
+            .MISMATCH {
+                color: #d73a49;
+            }
+        }
+
+        > .controls {
+            z-index: 10;
+            position: absolute;
+            bottom: 16px;
+            right: 40px;
+            display: flex;
+            gap: 1rem;
+
+            button {
+                background-color: #333;
+                color: white;
+                border: none;
+                padding: 10px;
+                aspect-ratio: 1/1;
+                border-radius: 5px;
+                cursor: pointer;
+                
+                display: grid;
+                place-items: center;
+
+                &:first-child {
+                    background-color: #d6d6d6;
+                    color: black;
+                    &:hover {
+                        background-color: #9e9e9e;
+                    }
+                }
+
+                &:hover {
+                    background-color: #4d4d4d;
+                }
+
+            }
+
+        }
+
+        .settings {
+            z-index: 10;
+            position: absolute;
+            bottom: 80px;
+            right: 40px;
+            background-color: #333;
+            border-radius: 5px;
+            padding: 1rem;
+
+            width: 215px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            > a {
+                color: white;
+                border: none;
+            }
+
+            > div, a {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                label {
+                    color: white;
+                    font-size: 1.3rem;
+                }
+
+                input {
+                    background-color: #4d4d4d;
+                    color: white;
+                    border: none;
+                    padding: 5px;
+                    border-radius: 5px;
+                    width: 50px;
+                    height: 30px;
+                    text-align: center;
+                    outline: none;
+                    font-size: 1.5rem;
+
+                    -moz-appearance: textfield;
+                    &::-webkit-inner-spin-button {
+                        -webkit-appearance: none;
+                        margin: 0;
+                    }
+                }
+            }
+
+        }
+
+        .lines {
+            position: absolute;
+            top: 16px;
+            left: 0;
+            width: 5rem;
+            color: rgba(255, 255, 255, 0.2);
+            text-align: right;
+            font-family: var(--wght);
+            user-select: none;
+
+            height: calc(100% - 2rem);
+            overflow: auto;
+
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            > div {
+                padding: 0 1rem;
+
+                > span {
+                    text-align: right;
+                    font-size: 1.5rem;
+                }
+            }
+        }
+
+    }
+}

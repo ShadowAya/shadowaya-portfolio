@@ -1,0 +1,94 @@
+.compiledBlock {
+    border-radius: 20px;
+    background-color: black;
+    padding: 0.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    max-height: 30%;
+
+    width: 100%;
+
+    position: relative;
+
+    > button {
+        position: absolute;
+        bottom: 15px;
+        right: 40px;
+        border: none;
+        background-color: transparent;
+
+        background-color: #333;
+        color: white;
+        border: none;
+        padding: 10px;
+        aspect-ratio: 1/1;
+        border-radius: 5px;
+        cursor: pointer;
+        
+        display: grid;
+        place-items: center;
+
+        &:hover {
+            background-color: #4d4d4d;
+        }
+    }
+
+    code {
+        font-size: 2rem;
+        padding: 1rem;
+        display: inline-block;
+        white-space: pre-wrap;
+        overflow-y: scroll;
+        word-wrap: break-word;
+
+        &::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+        
+        &::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 10px;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+            background-color: #333;
+            border-radius: 10px;
+        }
+        
+        &::-webkit-scrollbar-thumb:hover {
+            background-color: #949494;
+        }
+
+    }
+
+    .errors {
+        color: #ff8787;
+    }
+
+    div {
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        span {
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        div {
+            flex: 1;
+            height: 2px;
+            border-radius: 2px;
+            background-color: rgba(255, 255, 255, 0.246);
+            margin: 0 1rem;
+        }
+            
+        button {
+            border: none;
+            background-color: transparent;
+            color: white;
+        }
+    }
+}
