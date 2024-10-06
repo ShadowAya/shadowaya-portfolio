@@ -95,7 +95,10 @@ export default class Parser {
         if (token.kind !== kind) {
             this.errors.push(`Line ${token!.line}:${token!.column}: Expected '${token.value}' after start expression, got: ${token.value}`);
         }
-        if (!dontAdvance) this.advance();
+        if (!dontAdvance) {
+            if (!this.current_token || this.current_token.kind === 'EOF') this.advanceToEnd();
+            else this.advance();
+        }
     }
 
     parse_statements(block_is_active: boolean = false): ASTNode[] {
@@ -181,7 +184,6 @@ export default class Parser {
         this.advanceAndCheck('RPAREN'); // consume ')'
         this.advanceAndCheck('LBRACE'); // consume '{'
 
-        console.log('parsing if body');
         const if_body = this.parse_statements(true);
         this.advanceAndCheck('RBRACE'); // consume '}'
 
