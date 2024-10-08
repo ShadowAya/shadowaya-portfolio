@@ -18,6 +18,7 @@ export type Suggestion = {
     toErase?: [number, number];
     description?: string;
     usage?: [string, ('bold' | 'italic')[]][];
+    link?: string;
 }
 
 const keywords = [
@@ -44,7 +45,6 @@ const keywords = [
 ] as [string, string, string, NonNullable<Suggestion['usage']>][];
 
 let anyPatternFor = '(COMMA|AND|OR|EQ|NE|LT|GT|LE|GE|ADD|SUB|MUL|DIV|LVAR|GVAR|FUNC|STRING|NUMBER|LPAREN|RPAREN| )' as const;
-let anyPatternFunc = '(AND|OR|EQ|NE|LT|GT|LE|GE|ADD|SUB|MUL|DIV|LVAR|GVAR|STRING|NUMBER|LPAREN|RPAREN| )' as const;
 
 const forLoopShape = [
     ['FOR LPAREN', 'FOR LPAREN'],
@@ -182,7 +182,6 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
         'RBRACE',
         'SEMICOL',
         'ASSIGN',
-        // 'FUNC',
     ] as Token['kind'][]).includes(funcToken.kind));
 
     const functionKey = funcToken && funcToken.kind === 'FUNC' ? Object.keys(funcNameMap).find(f => f === funcToken.value) : undefined;
@@ -191,8 +190,6 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
         let parenCounter = 0;
         const func = funcNameMap[functionKey as keyof typeof funcNameMap];
         const functionCallTokens = tokens.slice(callIndex, cursorMeta.currentTokenIndex).filter(t => t.kind !== 'WS').map(t => t.kind).slice(2);
-
-        console.log(functionCallTokens);
 
         let commaCount = functionCallTokens.filter(t => {
             if (t === 'RPAREN') parenCounter++;
@@ -223,30 +220,45 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
                 commaNext = isActive;
                 if (isActive) {
 
+                    let argumentsPassed = 0;
+                    parenCounter = 0;
                     let eraseAnchor = callIndex + 2;
 
                     for (let ei = 0; ei < i; ei++) {
-                        while (tokens[eraseAnchor].kind !== 'COMMA') eraseAnchor++;
+                        while (true) {
+                            if (tokens[eraseAnchor].kind == 'LPAREN') {parenCounter++;console.log('added paren')}
+                            else if (tokens[eraseAnchor].kind == 'RPAREN') {parenCounter--;console.log('removed paren')}
+                            else if (tokens[eraseAnchor].kind === 'COMMA') {
+                                if (parenCounter !== 0) {
+                                    continue;
+                                } else if (argumentsPassed === i) {
+                                    break;
+                                } else {
+                                    argumentsPassed++;
+                                }
+                            }
+                            else if (tokens[eraseAnchor].kind === 'EOF') break;
+                            eraseAnchor++;
+                        };
                     }
                     while (tokens[eraseAnchor + 1] && tokens[eraseAnchor + 1].kind === 'WS') eraseAnchor++;
 
                     const toErase: [number, number] = [0, 0];
                         
-                    if (eraseAnchor < cursorMeta.currentTokenIndex) {
+                    if (eraseAnchor <= cursorMeta.currentTokenIndex) {
                         const thisTokenEnd = currentToken.column;
                         const thisTokenStart = thisTokenEnd - currentToken.value.length;
                         toErase[0] = cursorMeta.column - thisTokenStart;
                         toErase[1] = thisTokenEnd - cursorMeta.column;
                     }
 
+                    let isOptional = v[0] && v[0].includes(' (optional');
                     (v.slice(1) as [string, string][]).forEach(([val, desc]) => {
 
                         if (
                             ['COMMA', 'LPAREN', 'WS'].includes(currentToken.kind) ||
                             `${val}`.includes(currentToken.value.replaceAll('"', ''))
                         ) {
-                            //let quotemark = '';
-                            //if (!Object.keys(funcNameMap).find(v => v.includes(val))) quotemark = '"';
                             argOptions.push({
                                 icon: null,
                                 value: val,
@@ -256,6 +268,26 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
                             });
                         }
                     });
+
+                    if (
+                        isOptional &&
+                        (
+                            ['COMMA', 'LPAREN', 'WS'].includes(currentToken.kind) ||
+                            'omit'.startsWith(currentToken.value)
+                        )
+                    ) {
+                        let toErase: [number, number] = [(
+                            currentToken.kind === 'FUNC' || currentToken.kind === 'OMIT' ?
+                                currentToken.value.length : 0
+                        ), 0]
+                        argOptions.unshift({
+                            icon: null,
+                            value: 'omit',
+                            realValue: `omit${isLast ? ')':', '}`,
+                            toErase,
+                        });
+                    }
+                        
                 }
             });
 
@@ -268,7 +300,8 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
                     [`${functionKey}(`, []],
                     ...argsString,
                     [')', []]
-                ]
+                ],
+                link: `https://docs.kustom.rocks/docs/reference/functions/${func[0]}`,
             } satisfies Suggestion);
 
             suggestions.push(...argOptions);
@@ -281,6 +314,8 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
             const val = currentToken.value;
     
             // keywords
+
+            // @todo add 'omit' keyword
     
             if (!blockKeywords) {
                 const keywordMatches = keywords.filter(([keyword]) => keyword.startsWith(val));
@@ -317,7 +352,8 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
                             }
                             return val;
                         }).join(', ')})`,
-                    []]]
+                    []]],
+                    link: `https://docs.kustom.rocks/docs/reference/functions/${func[0]}`,
                 });
             });
     

@@ -15,6 +15,7 @@ const tokenSpecification = [
     ['IF', 'if'],                  // 'if' keyword
     ['ELSE', 'else'],              // 'else' keyword
     ['FOR', 'for'],                // 'for' keyword
+    ['OMIT', 'omit'],              // 'omit' keyword
         
     ['COMMA', ','],                // ',' operator
         

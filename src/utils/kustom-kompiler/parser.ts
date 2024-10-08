@@ -238,7 +238,29 @@ export default class Parser {
         }
     }
 
-    parse_expression(block_is_active: boolean = false, nested_active = false): ASTNode {
+    parse_expression(
+        block_is_active: boolean = false,
+        nested_active = false,
+        allow_omit = false,
+    ): ASTNode {
+
+        if (this.current_token!.kind === 'OMIT') {
+            this.advance();
+            if (allow_omit)
+                return new ASTNode(
+                    'omit',
+                    null,
+                    null,
+                    false,
+                    this.current_token!.line, this.current_token!.column
+                );
+            else {
+                this.errors.push(`Line ${this.current_token!.line}:${this.current_token!.column}: 'omit' keyword only allowed as function argument`);
+                return new ASTNode('null', null, null, false, this.current_token!.line, this.current_token!.column);
+            }
+            
+        }
+
         let left = this.parse_term(
             ['EQ', 'NE', 'AND', 'OR', 'ADD', 'SUB', 'MUL', 'DIV', 'LT', 'GT', 'LE', 'GE'].includes(
                 this.returnNextRealToken().kind
@@ -312,7 +334,7 @@ export default class Parser {
                 this.advanceToEnd();
                 break;
             }
-            args.push(this.parse_expression(true));
+            args.push(this.parse_expression(true, undefined, true));
             /* @ts-ignore RPAREN is expected to not appear, but we need to break it */
             if (this.current_token.kind === 'RPAREN') {
                 break;
