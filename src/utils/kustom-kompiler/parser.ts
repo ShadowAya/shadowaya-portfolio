@@ -340,7 +340,7 @@ export default class Parser {
                 break;
             }
             if (this.current_token.kind !== 'COMMA') {
-                this.errors.push(`Line ${this.current_token.line}:${this.current_token.column}: Expected ',' or ')' in function call, got: ${this.current_token}`);
+                this.errors.push(`Line ${this.current_token.line}:${this.current_token.column}: Expected ',' or ')' in function call, got: ${this.current_token.value}`);
             }
             this.advance(); // consume ',' or move to next argument
         }

@@ -37,24 +37,101 @@ const keywords = [
         'if (',
         'If statement',
         [
-            ['if (', []],
-            ['condition', ['bold']],
-            [') { ... }', []],
+            ['if (condition) { ... }', []],
         ]
     ]
 ] as [string, string, string, NonNullable<Suggestion['usage']>][];
 
 let anyPatternFor = '(COMMA|AND|OR|EQ|NE|LT|GT|LE|GE|ADD|SUB|MUL|DIV|LVAR|GVAR|FUNC|STRING|NUMBER|LPAREN|RPAREN| )' as const;
+let anyPatternIf = '(AND|OR|EQ|NE|LT|GT|LE|GE|ADD|SUB|MUL|DIV|LVAR|GVAR|FUNC|STRING|NUMBER|LPAREN|RPAREN| )' as const;
 
-const forLoopShape = [
-    ['FOR LPAREN', 'FOR LPAREN'],
-    [`${anyPatternFor}+ SEMICOL`, 'NUMBER SEMICOL'],
-    [`${anyPatternFor}+ SEMICOL`, 'NUMBER SEMICOL'],
-    [`${anyPatternFor}+ RPAREN`, 'NUMBER RPAREN'],
-    [`LPAREN ${anyPatternFor}+ RPAREN`, 'LPAREN STRING RPAREN'],
-] as const;
+const keywordShapes = {
+    'FOR' : [
+        ['FOR LPAREN', 'FOR LPAREN'],
+        [`${anyPatternFor}+ SEMICOL`, 'NUMBER SEMICOL'],
+        [`${anyPatternFor}+ SEMICOL`, 'NUMBER SEMICOL'],
+        [`${anyPatternFor}+ RPAREN`, 'NUMBER RPAREN'],
+        [`LPAREN ${anyPatternFor}+ RPAREN`, 'LPAREN STRING RPAREN'],
+    ],
+    'IF' : [
+        ['IF LPAREN', 'IF LPAREN'],
+        [`${anyPatternIf}+`, 'NUMBER'],
+    ]
+} as const;
 
-const forLoopPattern = forLoopShape.map(t => t[0]).join(' ');
+type KeywordPatterns = {
+    -readonly [key in keyof typeof keywordShapes]: string
+};
+
+const foundKeywordKinds = Object.keys(keywordShapes) as (keyof KeywordPatterns)[];
+
+const keywordPatterns: KeywordPatterns = {} as KeywordPatterns;
+for (const keywordShape of Object.entries(keywordShapes)) {
+    keywordPatterns[keywordShape[0] as keyof KeywordPatterns] = keywordShape[1].map(t => t[0]).join(' ');
+}
+
+const keywordSuggestions: {
+    -readonly [key in keyof typeof keywordShapes]: {
+        [key: `${number}`]: Suggestion
+    }
+} = {
+    'FOR': {
+        4: {
+            description: 'Start index (number)',
+            icon: 'ph:list-bold',
+            usage: [
+                ['for (', []],
+                ['start', ['bold']],
+                ['; end; step) ', []],
+                ['(sep)', ['italic']],
+                [' { ... }', []],
+            ],
+        },
+        3: {
+            description: 'end index (number)',
+            icon: 'ph:list-bold',
+            usage: [
+                ['for (start; ', []],
+                ['end', ['bold']],
+                ['; step) ', []],
+                ['(sep)', ['italic']],
+                [' { ... }', []],
+            ]
+        },
+        2: {
+            value: 'i + 1',
+            description: 'step (i)',
+            icon: 'ph:list-bold',
+            usage: [
+                ['for (start; end; ', []],
+                ['step', ['bold']],
+                [') ', []],
+                ['(sep)', ['italic']],
+                [' { ... }', []],
+            ]
+        },
+        1: {
+            description: 'separator (optional)',
+            icon: 'ph:list-bold',
+            usage: [
+                ['for (start; end; step) ', []],
+                ['(sep)', ['bold', 'italic']],
+                [' { ... }', []],
+            ]
+        },
+    },
+    'IF': {
+        1: {
+            description: "Condition",
+            icon: 'ph:list-bold',
+            usage: [
+                ['if (', []],
+                ['condition', ['bold']],
+                [') { ... }', []],
+            ],
+        },
+    }
+};
 
 export default function generateSuggestions(tokens: Token[], cursorMeta: CursorMeta ): Suggestion[] {
     const currentToken = tokens[cursorMeta.currentTokenIndex];
@@ -64,87 +141,49 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
     
     const suggestions: Suggestion[] = [];
 
-    // find for loop
-    let forStartIndex = cursorMeta.currentTokenIndex;
     
-    while (forStartIndex >= 0) {
-        const token = tokens[forStartIndex];
-        if (token.kind === 'FOR') break;
-        forStartIndex--;
+    /**
+     * 
+     * for loop
+     * 
+     */
+    let tokenStartIndex = cursorMeta.currentTokenIndex;
+    
+    let foundKeywordKind: keyof KeywordPatterns | undefined;
+    while (tokenStartIndex >= 0) {
+        const kind = tokens[tokenStartIndex].kind;
+        if (foundKeywordKinds.includes(kind as any)) {
+            foundKeywordKind = kind as any;
+            break;
+        }
+        tokenStartIndex--;
     }
 
-    let forLoopTokens = tokens.slice(forStartIndex, cursorMeta.currentTokenIndex + 1).filter(t => t.kind !== 'WS').map(t => t.kind);
-    
-    let addedForTokens = 0;
-    for (; addedForTokens < forLoopShape.length; addedForTokens++) {
-        let formatted = [
-            ...forLoopTokens, ...forLoopShape.slice(5 - addedForTokens, 5).map(t => t[1])
-        ].join(' ');
+    if (foundKeywordKind) {
+        
+        let foundKeywordTokens = tokens.slice(tokenStartIndex, cursorMeta.currentTokenIndex + 1).filter(t => t.kind !== 'WS').map(t => t.kind);
+        let foundKeywordShape = keywordShapes[foundKeywordKind];
+        let foundKeywordPattern = keywordPatterns[foundKeywordKind];
 
-        if (formatted.match(forLoopPattern)) break;
-    }
+        let addedForTokens = 0;
+        for (; addedForTokens < foundKeywordShape.length; addedForTokens++) {
+            let formatted = [
+                ...foundKeywordTokens, ...foundKeywordShape.slice(foundKeywordShape.length - addedForTokens, foundKeywordShape.length).map(t => t[1])
+            ].join(' ');
 
-    if (addedForTokens !== 0 && addedForTokens !== 5) {
-        switch (addedForTokens) {
-            case 4:
-                // first argument
-                suggestions.push({
-                    description: 'Start index (number)',
-                    icon: 'ph:list-bold',
-                    usage: [
-                        ['for (', []],
-                        ['start', ['bold']],
-                        ['; end; step) ', []],
-                        ['(sep)', ['italic']],
-                        [' { ... }', []],
-                    ],
-                });
-                break;
-            case 3:
-                // second argument
-                suggestions.push({
-                    description: 'end index (number)',
-                    icon: 'ph:list-bold',
-                    usage: [
-                        ['for (start; ', []],
-                        ['end', ['bold']],
-                        ['; step) ', []],
-                        ['(sep)', ['italic']],
-                        [' { ... }', []],
-                    ]
-                });
-                break;
-            case 2:
-                // third argument
-                suggestions.push({
-                    value: 'i + 1',
-                    description: 'step (i)',
-                    icon: 'ph:list-bold',
-                    usage: [
-                        ['for (start; end; ', []],
-                        ['step', ['bold']],
-                        [') ', []],
-                        ['(sep)', ['italic']],
-                        [' { ... }', []],
-                    ]
-                });
-                break;
-            case 1:
-                // separator
-                suggestions.push({
-                    description: 'separator (optional)',
-                    icon: 'ph:list-bold',
-                    usage: [
-                        ['for (start; end; step) ', []],
-                        ['(sep)', ['bold', 'italic']],
-                        [' { ... }', []],
-                    ]
-                });
-                break;
+            if (formatted.match(foundKeywordPattern)) break;
+        }
+
+        if (addedForTokens !== 0 && addedForTokens !== foundKeywordShape.length) {
+            suggestions.push(keywordSuggestions[foundKeywordKind][`${addedForTokens}`])
         }
     }
 
-    // variables
+    /**
+     * 
+     * variables
+     * 
+     */
     if (currentToken.value.startsWith('#') || currentToken.value.startsWith('@')) {
         [...cursorMeta.declaredVariables].filter(v => v.startsWith(currentToken.value)).forEach(v => {
             suggestions.push({
@@ -156,7 +195,11 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
         });
     }
 
-    // function args
+    /**
+     * 
+     * function args
+     * 
+     */
 
     let blockKeywords = false;
     let funcToken: Token;
@@ -189,12 +232,17 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
     if (functionKey) {
         let parenCounter = 0;
         const func = funcNameMap[functionKey as keyof typeof funcNameMap];
-        const functionCallTokens = tokens.slice(callIndex, cursorMeta.currentTokenIndex).filter(t => t.kind !== 'WS').map(t => t.kind).slice(2);
+        const functionCallTokens = tokens.slice(callIndex, cursorMeta.currentTokenIndex).map(t => t.kind).slice(2);
 
-        let commaCount = functionCallTokens.filter(t => {
+        let isRestArg = false;
+
+        let commaTokensIndexes: number[] = [0];
+        let commaCount = functionCallTokens.filter((t, i) => {
             if (t === 'RPAREN') parenCounter++;
             else if (t === 'LPAREN') parenCounter--;
-            return t === 'COMMA' && parenCounter === 0;
+            const ret = t === 'COMMA' && parenCounter === 0;
+            if (ret) commaTokensIndexes.push(i);
+            return ret;
         }).length;
         if (currentToken.kind === 'COMMA') commaCount++;
         if (
@@ -203,6 +251,10 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
             currentToken.kind === 'RPAREN'
         ) commaCount = -1;
         if (currentToken.kind === 'SEMICOL') commaCount = -1;
+        if (func[func.length - 1][0]?.startsWith("...") && commaCount >= func.length - 2) {
+            isRestArg = true;
+        }
+        commaTokensIndexes.push(-1);
 
         if (commaCount != -1) {
             const args = func.slice(1);
@@ -211,7 +263,9 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
 
             let commaNext = false;
             args.map((v, i) => {
-                const isActive = i === commaCount;
+                const isActive =
+                    (i === commaCount) ||
+                    (isRestArg && i === args.length - 1);
                 const isLast = args.length === i+1;
                 argsString.push([
                     `${commaNext ? ', ':''}${v[0]}${isLast || isActive ? '':', '}`,
@@ -220,18 +274,19 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
                 commaNext = isActive;
                 if (isActive) {
 
+                    let eraseAnchor = callIndex + 2;
+                    
                     let argumentsPassed = 0;
                     parenCounter = 0;
-                    let eraseAnchor = callIndex + 2;
 
                     for (let ei = 0; ei < i; ei++) {
                         while (true) {
-                            if (tokens[eraseAnchor].kind == 'LPAREN') {parenCounter++;console.log('added paren')}
-                            else if (tokens[eraseAnchor].kind == 'RPAREN') {parenCounter--;console.log('removed paren')}
+                            if (tokens[eraseAnchor].kind == 'LPAREN') parenCounter++;
+                            else if (tokens[eraseAnchor].kind == 'RPAREN') parenCounter--;
                             else if (tokens[eraseAnchor].kind === 'COMMA') {
                                 if (parenCounter !== 0) {
                                     continue;
-                                } else if (argumentsPassed === i) {
+                                } else if (argumentsPassed === commaCount - 1) {
                                     break;
                                 } else {
                                     argumentsPassed++;
@@ -242,9 +297,10 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
                         };
                     }
                     while (tokens[eraseAnchor + 1] && tokens[eraseAnchor + 1].kind === 'WS') eraseAnchor++;
+                    if (tokens[eraseAnchor] && tokens[eraseAnchor].kind === 'WS') eraseAnchor++;
 
                     const toErase: [number, number] = [0, 0];
-                        
+
                     if (eraseAnchor <= cursorMeta.currentTokenIndex) {
                         const thisTokenEnd = currentToken.column;
                         const thisTokenStart = thisTokenEnd - currentToken.value.length;
@@ -252,18 +308,36 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
                         toErase[1] = thisTokenEnd - cursorMeta.column;
                     }
 
-                    let isOptional = v[0] && v[0].includes(' (optional');
-                    (v.slice(1) as [string, string][]).forEach(([val, desc]) => {
+                    let isOptional = v[0] && (
+                        v[0].includes(' (optional') ||
+                        v[0].includes(' (omit')
+                    );
+
+                    let hasBrace = false;
+                    if (commaTokensIndexes[i] != -1) {
+                        hasBrace = tokens.slice(
+                            (callIndex + 2) + commaTokensIndexes[i] + 1,
+                            cursorMeta.currentTokenIndex
+                        ).find(v => ['LPAREN', 'RPAREN'].includes(v.kind)) != undefined;
+                    }
+
+                    (v.slice(1) as [string, string][]).forEach(([val, desc], vi) => {
 
                         if (
-                            ['COMMA', 'LPAREN', 'WS'].includes(currentToken.kind) ||
-                            `${val}`.includes(currentToken.value.replaceAll('"', ''))
+                            (
+                                !val.match(/^.+\(.*$/g) || !hasBrace
+                                // dont suggest anything containing functions if a function is already entered
+                            ) && (
+                                ['COMMA', 'LPAREN', 'WS'].includes(currentToken.kind) ||
+                                `${val}`.includes(currentToken.value.replaceAll('"', ''))
+                            )
+                            
                         ) {
                             argOptions.push({
                                 icon: null,
                                 value: val,
                                 description: desc,
-                                realValue: `${val}${isLast ? ')':', '}`,
+                                realValue: `${val}${isLast && !isRestArg ? ')':', '}`,
                                 toErase,
                             });
                         }
@@ -313,10 +387,12 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
         if (currentToken.kind == 'FUNC') {
             const val = currentToken.value;
     
-            // keywords
+            /**
+             * 
+             * keywords
+             * 
+             */
 
-            // @todo add 'omit' keyword
-    
             if (!blockKeywords) {
                 const keywordMatches = keywords.filter(([keyword]) => keyword.startsWith(val));
     
@@ -329,7 +405,11 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
                 } satisfies Suggestion)));
             }
     
-            // functions
+            /**
+             * 
+             * functions
+             * 
+             */
     
             Object.keys(funcNameMap).filter(f => f.startsWith(val)).forEach(f => {
                 const func = funcNameMap[f as keyof typeof funcNameMap];
