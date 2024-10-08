@@ -47,7 +47,11 @@ const tokenSpecification = [
 
     ['ASSIGN', '='],               // Equals (assign) sign
 
-    ['WS', '[ \\t\\n]+'],          // Whitespace
+    ['WS', ' +'],                  // Whitespaces
+    ['WS', '\\n+'],
+    ['WS', '\\t+'],
+    ['WS', '\\r+'],
+
     ['MISMATCH', '.'],             // Any other character
 ] as const;
 type TokenKinds =  typeof tokenSpecification[number][0] | "EOF";

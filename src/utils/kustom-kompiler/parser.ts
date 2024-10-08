@@ -77,6 +77,10 @@ export default class Parser {
     returnNextRealToken(): Token {
         let realIndex = this.pos + 1;
         while (this.tokens[realIndex]?.kind === 'WS') realIndex++;
+        if (this.tokens[realIndex] === undefined) {
+            this.advanceToEnd();
+            return this.tokens[0];
+        }
         return this.tokens[realIndex];
     }
 
@@ -93,7 +97,8 @@ export default class Parser {
 
     advanceAndCheck(kind: Token["kind"], token: Token = this.current_token!, dontAdvance: boolean = false) {
         if (token.kind !== kind) {
-            this.errors.push(`Line ${token!.line}:${token!.column}: Expected '${token.value}' after start expression, got: ${token.value}`);
+            if (token.kind === 'EOF') this.errors.push(`Line ${token.line}:${token.column}: Unexpected end of file`);
+            else this.errors.push(`Line ${token!.line}:${token!.column}: Expected '${kind}' after expression, got: ${token.value}`);
         }
         if (!dontAdvance) {
             if (!this.current_token || this.current_token.kind === 'EOF') this.advanceToEnd();
@@ -155,7 +160,7 @@ export default class Parser {
 
         let separator: ASTNode = new ASTNode('null', null, [], false, this.current_token!.line, this.current_token!.column);
         if (this.checkTokenType('LPAREN')) {
-            this.advanceAndCheck('LPAREN'); // consume '('
+            this.advance(); // consume '('
             separator = this.parse_expression(true);
             this.advanceAndCheck('RPAREN'); // consume ')'
         }
@@ -164,6 +169,10 @@ export default class Parser {
 
         const body = this.parse_statements(true);
         this.advanceAndCheck('RBRACE'); // consume '}'
+
+        if (body.length === 0) {
+            this.errors.push(`Line ${this.current_token!.line}:${this.current_token!.column}: For loop body cannot be empty`);
+        }
 
         return new ASTNode(
             'for_loop',
@@ -281,7 +290,7 @@ export default class Parser {
                 return new ASTNode('string', token_value, [], block_is_active, this.current_token!.line, this.current_token!.column);
             case 'LPAREN' :
                 this.advance(); // consume '('
-                const expr = this.parse_expression();
+                const expr = this.parse_expression(block_is_active);
                 this.advance(); // consume ')'
                 return expr;
             default:

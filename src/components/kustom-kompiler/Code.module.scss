@@ -24,7 +24,7 @@
             white-space: pre-wrap;
         }
 
-        > .visual, > textarea {
+        > .visual, .positional, > textarea {
             height: calc(100% - 2rem);
             width: calc(100% - 2rem);
             position: absolute;
@@ -66,10 +66,15 @@
         > .visual {
             z-index: 3;
             pointer-events: none;
-            overflow: hidden;
+            overflow: auto;
 
             span {
                 text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            }
+
+            .invisible {
+                color: transparent;
+                text-shadow: none;
             }
 
             /* Keyword styles */
@@ -120,6 +125,14 @@
             .MISMATCH {
                 color: #d73a49;
             }
+        }
+
+        > .positional {
+            z-index: 0;
+            pointer-events: none;
+            overflow: auto;
+
+            color: transparent;
         }
 
         > .controls {

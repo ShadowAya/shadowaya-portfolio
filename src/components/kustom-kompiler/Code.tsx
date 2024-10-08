@@ -1,13 +1,15 @@
 'use client';
 
-import { ClipboardEventHandler, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './Code.module.scss';
-import lexer, { type Token, countOccurrences, LexerError } from '@/utils/kustom-kompiler/lexer';
+import lexer, { type Token, countOccurrences } from '@/utils/kustom-kompiler/lexer';
 import cn from 'classnames';
 
 import { IBM_Plex_Mono } from 'next/font/google';
 import Iconify from '../Iconify';
 import CompiledBlock from './CompiledBlock';
+import Tooltip from './Tooltip';
+import { CursorMeta } from '@/utils/kustom-kompiler/suggestiongen';
 
 const autoAdd = {
     '(': ')',
@@ -26,13 +28,8 @@ export default function Code() {
     const [toCompile, setToCompile] = useState<Token[] | null>(null);
     const [lexedError, setLexedError] = useState<string | null>(null);
 
-    const [cursorMeta, setCursorMeta] = useState<{
-        line: number,
-        column: number,
-        currentTokenIndex: number | null,
-        currentText: string,
-        declaredVariables: string[]
-    }>({ line: 1, column: 1, currentTokenIndex: null, currentText: '', declaredVariables: [] });
+    const [tooltipTimeout, setTooltipTimeout] = useState<NodeJS.Timeout | null>(null);
+    const [cursorMeta, setCursorMeta] = useState<CursorMeta>({ line: 1, column: 1, screenX: 0, screenY: 0, currentTokenIndex: 0, declaredVariables: new Set(), hide: false });
 
     const [showSettings, setShowSettings] = useState(false);
 
@@ -42,16 +39,21 @@ export default function Code() {
 
     const textField = useRef<HTMLTextAreaElement>(null);
     const visual = useRef<HTMLDivElement>(null);
+    const positional = useRef<HTMLDivElement>(null);
     const lineNumbers = useRef<HTMLDivElement>(null);
 
     const markupCode = (text: string) => {
         setCode(text);
         let lexed = lexer(text);
+        let rest = '';
 
         if (lexed.error) {
             setLexedError(`Line ${lexed.error.line}:${lexed.error.column}: Unexpected tokens`);
             if (lexed.error.line === -1) {
                 lexed.tokens = [];
+                rest = text;
+            } else {
+                rest = text.split('\n').slice(lexed.error.line! - 1).join('\n');
             }
             // console.log(lexed);
             // console.log(rest);
@@ -63,29 +65,10 @@ export default function Code() {
 
         if (visual.current) visual.current.innerHTML = lexed.tokens.map(token => {
             return `<span class="${styles[token.kind]}">${token.value}</span>`;
-        }).join('') + `<span>\n</span>`;
+        }).join('') + `<span class="${styles.invisible}">${rest}</span>` + `<span>\n</span>`;
 
         setCodeLexed(lexed.tokens);
     }
-
-    const handlePaste: ClipboardEventHandler<HTMLTextAreaElement> = (event) => {
-        event.preventDefault();
-    
-        // Get plain text from clipboard
-        const text = event.clipboardData?.getData('text/plain');
-        if (!text) return;
-        
-        // Insert the plain text into the div
-        const selection = window.getSelection();
-        if (!selection || !selection.rangeCount) return;
-        
-        // Delete the selected text (if any) and replace with the pasted text
-        selection.deleteFromDocument();
-        selection.getRangeAt(0).insertNode(document.createTextNode(text));
-        
-        // Move the caret to the end of the pasted content
-        selection.collapseToEnd();
-    };
 
     const handleInput = (event: React.FormEvent<HTMLTextAreaElement>) => {
         const target = event.target as HTMLTextAreaElement;
@@ -167,9 +150,81 @@ export default function Code() {
             visual.current.scrollTop = textField.current.scrollTop;
             visual.current.scrollLeft = textField.current.scrollLeft;
         }
+        if (positional.current) {
+            positional.current.scrollTop = textField.current.scrollTop;
+            positional.current.scrollLeft = textField.current.scrollLeft;
+        }
         if (lineNumbers.current) {
             lineNumbers.current.scrollTop = textField.current.scrollTop;
         }
+        setCursorMeta(meta => ({ ...meta, hide: true }));
+        if (tooltipTimeout) clearTimeout(tooltipTimeout);
+        setTooltipTimeout(setTimeout(() => {
+            updateCursorMeta(true);
+        }, 500));
+    };
+
+    const updateCursorMeta = (alsoShow = false) => {
+        const newMeta = { ...cursorMeta };
+
+        if (textField.current) {
+            if (alsoShow) newMeta.hide = false;
+            newMeta.hide = textField.current.selectionStart !== textField.current.selectionEnd;
+            const cursor = textField.current.selectionStart;
+            const text = textField.current.value;
+
+            newMeta.line = countOccurrences(text.substring(0, cursor), '\n') + 1;
+            newMeta.column = cursor - text.lastIndexOf('\n', cursor - 1);
+
+            if (positional.current) {
+                positional.current.innerHTML = `<span>${text.substring(0, cursor)}</span><span name="anchor"></span><span>${text.substring(cursor)}\n</span>`;
+                positional.current.scrollTop = textField.current.scrollTop;
+                const span = positional.current.querySelector('span[name="anchor"]');
+                if (span) {
+                    newMeta.screenX = span.getBoundingClientRect().left;
+                    newMeta.screenY = span.getBoundingClientRect().bottom;
+                }
+            }
+
+            const declaredVariables = new Set<string>();
+            let i = 0;
+            for (i = 0; i < (codeLexed?.length??0); i++) {
+                if (codeLexed![i].kind === 'LVAR' || codeLexed![i].kind === 'GVAR') declaredVariables.add(codeLexed![i].value);
+                if (codeLexed![i].line === newMeta.line) {
+                    if (codeLexed![i].column >= newMeta.column) {
+                        newMeta.currentTokenIndex = i;
+                        break;
+                    }
+                }
+            }
+            newMeta.declaredVariables.delete('#i');
+            newMeta.declaredVariables = declaredVariables;
+
+        }
+
+        setCursorMeta(newMeta);
+
+    };
+
+    const tooltipAutocomplete = (value: string, eraseFront: number, eraseBack: number) => {
+        const target = textField.current;
+        if (!target) return;
+
+        const cursor = target.selectionStart;
+        const text = target.value;
+
+        const before = text.substring(0, cursor - eraseFront);
+        const after = text.substring(cursor + eraseBack);
+
+        const newCursor = cursor + value.length;
+        target.value = before + value + after;
+
+        target.focus();
+        target.selectionStart = newCursor;
+        target.selectionEnd = newCursor;
+
+        markupCode(target.value);
+
     };
 
     const disableScroll = (e: WheelEvent) => {
@@ -206,7 +261,17 @@ export default function Code() {
         if (zoom) localStorage.setItem('kustom-kompiler-zoom', zoom.toString());
     }, [zoom]);
 
-    return (
+    useEffect(() => {
+        updateCursorMeta();
+    }, [codeLexed]);
+
+    return (<>
+        <Tooltip
+            cursorMeta={cursorMeta}
+            tokens={codeLexed??[]}
+            autocompleteFunction={tooltipAutocomplete}
+            fontSize={zoom}
+        />
         <div className={cn(styles.code, ibmPlexMono.variable)}>
             <div style={{
                 fontSize: `${zoom}px`
@@ -216,6 +281,7 @@ export default function Code() {
                     onInput={handleInput}
                     onKeyDown={handleKeyDown}
                     onScroll={handleScroll}
+                    onSelect={() => updateCursorMeta()}
                     style={{
                         tabSize: tabSize,
                         fontSize: `${zoom}px`
@@ -224,6 +290,14 @@ export default function Code() {
                 <div
                     className={styles.visual}
                     ref={visual}
+                    style={{
+                        tabSize: tabSize,
+                        fontSize: `${zoom}px`
+                    }}
+                />
+                <div
+                    className={styles.positional}
+                    ref={positional}
                     style={{
                         tabSize: tabSize,
                         fontSize: `${zoom}px`
@@ -324,6 +398,6 @@ export default function Code() {
                 lexedError={lexedError}
             />
         </div>
-    )
+    </>)
 
 }

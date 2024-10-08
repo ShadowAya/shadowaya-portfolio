@@ -1,0 +1,73 @@
+
+.tooltip {
+    z-index: 100;
+    position: absolute;
+
+    background-color: rgb(50, 50, 50);
+
+    display: flex;
+    flex-direction: column;
+
+    font-size: var(--font-size);
+
+    max-height: 400px;
+    overflow-y: auto;
+
+    max-width: 600px;
+
+    .row {
+
+        &.hoverable:hover {
+            background-color: rgb(80, 80, 80);
+        }
+
+        &:nth-child(even) {
+            background-color: rgb(40, 40, 40);
+        }
+        display: flex;
+
+        > svg {
+            margin: 7px 0 0 7px;
+        }
+
+        > div {
+
+            padding: 5px 10px;
+
+            > div {
+                display: flex;
+                align-items: flex-start;
+                gap: 10px;
+        
+                .value {
+
+                }
+                .description {
+                    margin-top: 5px;
+                    opacity: 0.5;
+                    font-size: calc(var(--font-size) - 0.3rem);
+                    max-width: 400px;
+                }
+        
+            }
+
+            .usage {            
+                .regular {
+                    opacity: 0.5;
+                }
+
+                .italic {
+                    opacity: 0.5;
+                    font-style: italic;
+                }
+
+                .bold {
+                    opacity: 1;
+                    font-weight: bold;
+                }
+
+            }
+        }
+    }
+
+}
