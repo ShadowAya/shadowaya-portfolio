@@ -131,6 +131,12 @@ export default function Code() {
     }
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+
+        // @todo browse linter options with arrow
+        // @todo tab to insert linter suggestion
+        // @todo multiple lines selected + tab = move everything
+        // @todo shift tab
+
         const target = event.target as HTMLTextAreaElement;
         const cursor = target.selectionStart;
         const text = target.value;
