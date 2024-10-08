@@ -160,9 +160,19 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
 
     let blockKeywords = false;
     let funcToken: Token;
-    let callIndex = cursorMeta.currentTokenIndex - 1;
+    let callIndex = cursorMeta.currentTokenIndex;
+
+    let countedParensForFn = 0;
     do {
         funcToken = tokens[callIndex];
+
+        if (!funcToken) continue;
+
+        if (funcToken.kind === 'RPAREN') countedParensForFn--;
+        else if (funcToken.kind === 'LPAREN') countedParensForFn++;
+
+        if (countedParensForFn === 1 && funcToken.kind === 'FUNC') break;
+
         callIndex--;
     } while (funcToken && !([
         'IF',
@@ -172,16 +182,23 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
         'RBRACE',
         'SEMICOL',
         'ASSIGN',
-        'FUNC',
+        // 'FUNC',
     ] as Token['kind'][]).includes(funcToken.kind));
 
     const functionKey = funcToken && funcToken.kind === 'FUNC' ? Object.keys(funcNameMap).find(f => f === funcToken.value) : undefined;
 
     if (functionKey) {
+        let parenCounter = 0;
         const func = funcNameMap[functionKey as keyof typeof funcNameMap];
         const functionCallTokens = tokens.slice(callIndex, cursorMeta.currentTokenIndex).filter(t => t.kind !== 'WS').map(t => t.kind).slice(2);
 
-        let commaCount = functionCallTokens.filter(t => t === 'COMMA').length;
+        console.log(functionCallTokens);
+
+        let commaCount = functionCallTokens.filter(t => {
+            if (t === 'RPAREN') parenCounter++;
+            else if (t === 'LPAREN') parenCounter--;
+            return t === 'COMMA' && parenCounter === 0;
+        }).length;
         if (currentToken.kind === 'COMMA') commaCount++;
         if (
             functionCallTokens.filter(t => t === 'LPAREN').length ===
@@ -211,7 +228,7 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
                     for (let ei = 0; ei < i; ei++) {
                         while (tokens[eraseAnchor].kind !== 'COMMA') eraseAnchor++;
                     }
-                    while (tokens[eraseAnchor + 1].kind === 'WS') eraseAnchor++;
+                    while (tokens[eraseAnchor + 1] && tokens[eraseAnchor + 1].kind === 'WS') eraseAnchor++;
 
                     const toErase: [number, number] = [0, 0];
                         
@@ -227,14 +244,17 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
                         if (
                             ['COMMA', 'LPAREN', 'WS'].includes(currentToken.kind) ||
                             `${val}`.includes(currentToken.value.replaceAll('"', ''))
-                        ) 
+                        ) {
+                            //let quotemark = '';
+                            //if (!Object.keys(funcNameMap).find(v => v.includes(val))) quotemark = '"';
                             argOptions.push({
                                 icon: null,
                                 value: val,
                                 description: desc,
-                                realValue: `"${val}"${isLast ? ')':', '}`,
+                                realValue: `${val}${isLast ? ')':', '}`,
                                 toErase,
                             });
+                        }
                     });
                 }
             });
