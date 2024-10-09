@@ -63,10 +63,12 @@ export default function Tooltip({ cursorMeta, tokens, autocompleteFunction, font
                             )}</span>
                         }
                         {suggestion.link &&
-                            <a href={suggestion.link} className={styles.link} target="_blank">
-                                <Iconify icon="bx:link" />
-                                <span>View on the web</span>
-                            </a>
+                            <div>
+                                <a href={suggestion.link} className={styles.link} target="_blank">
+                                    <Iconify icon="bx:link" />
+                                    <span>View on the web</span>
+                                </a>
+                            </div>
                         }
                     </div>
                 </div>
