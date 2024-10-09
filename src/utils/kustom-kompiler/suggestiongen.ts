@@ -258,6 +258,7 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
 
         if (commaCount != -1) {
             const args = func.slice(1);
+            const argsListOnly = args.map(v => v.slice(1));
             const argsString: Suggestion['usage'] = [];
             let argOptions: Suggestion[] = [];
 
@@ -301,6 +302,22 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
 
                     const toErase: [number, number] = [0, 0];
 
+                    let onlyOmitList: (number | [number, number[]])[] = [];
+                    let firstArgValue = tokens[callIndex + 2].value;
+
+                    // regex check
+                    for (const regexEntry of (argsListOnly[0] as string[]).filter(v => v[0].startsWith('REGEX'))) {
+                        const regex = regexEntry[0].substring(5);
+                        console.log(regex, firstArgValue);
+                        if (firstArgValue.match(regex)) onlyOmitList = regexEntry[1] as any;
+                    }
+
+                    // literal arguments check
+                    let foundArg = (argsListOnly[0] as string[]).find(v => v[0] === firstArgValue);
+                    if (foundArg) {
+                        onlyOmitList = (foundArg[2] as any)??[];
+                    }
+
                     if (eraseAnchor <= cursorMeta.currentTokenIndex) {
                         const thisTokenEnd = currentToken.column;
                         const thisTokenStart = thisTokenEnd - currentToken.value.length;
@@ -308,10 +325,7 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
                         toErase[1] = thisTokenEnd - cursorMeta.column;
                     }
 
-                    let isOptional = v[0] && (
-                        v[0].includes(' (optional') ||
-                        v[0].includes(' (omit')
-                    );
+                    let isOptional = v[0] && v[0].startsWith('*');
 
                     let hasBrace = false;
                     if (commaTokensIndexes[i] != -1) {
@@ -321,47 +335,65 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
                         ).find(v => ['LPAREN', 'RPAREN'].includes(v.kind)) != undefined;
                     }
 
-                    (v.slice(1) as [string, string][]).forEach(([val, desc], vi) => {
-
-                        if (
-                            (
-                                !val.match(/^.+\(.*$/g) || !hasBrace
-                                // dont suggest anything containing functions if a function is already entered
-                            ) && (
-                                ['COMMA', 'LPAREN', 'WS'].includes(currentToken.kind) ||
-                                `${val}`.includes(currentToken.value.replaceAll('"', ''))
-                            )
-                            
-                        ) {
-                            argOptions.push({
-                                icon: null,
-                                value: val,
-                                description: desc,
-                                realValue: `${val}${isLast && !isRestArg ? ')':', '}`,
-                                toErase,
-                            });
-                        }
-                    });
-
-                    if (
-                        isOptional &&
-                        (
-                            ['COMMA', 'LPAREN', 'WS'].includes(currentToken.kind) ||
-                            'omit'.startsWith(currentToken.value)
-                        )
-                    ) {
-                        let toErase: [number, number] = [(
-                            currentToken.kind === 'FUNC' || currentToken.kind === 'OMIT' ?
-                                currentToken.value.length : 0
-                        ), 0]
+                    if (onlyOmitList.includes(i)) {
                         argOptions.unshift({
                             icon: null,
                             value: 'omit',
+                            description: `This option is omitted for ${firstArgValue.length < 11 ? firstArgValue : (firstArgValue.substring(0, 10) + "...")}`,
                             realValue: `omit${isLast ? ')':', '}`,
                             toErase,
                         });
+                    } else {
+
+                        onlyOmitList = ((onlyOmitList.find(v => typeof v !== 'number' && v[0] === i)) as [number, number[]])?.[1] ?? [];
+
+                        (v.slice(1) as [string, string][]).forEach(([val, desc], vi) => {
+
+                            if (
+                                (
+                                    !val.startsWith('REGEX')
+                                ) && (
+                                    !onlyOmitList.includes(vi)
+                                ) && (
+                                    !val.match(/^.+\(.*$/g) || !hasBrace
+                                    // dont suggest anything containing functions if a function is already entered
+                                ) && (
+                                    ['COMMA', 'LPAREN', 'WS'].includes(currentToken.kind) ||
+                                    `${val}`.includes(currentToken.value.replaceAll('"', ''))
+                                )
+                                
+                            ) {
+                                // const terminator = isLast && !isRestArg ? ')':', ';
+                                argOptions.push({
+                                    icon: null,
+                                    value: val,
+                                    description: desc,
+                                    realValue: `${val}`,
+                                    toErase,
+                                });
+                            }
+                        });
+
+                        if (
+                            isOptional &&
+                            (
+                                ['COMMA', 'LPAREN', 'WS'].includes(currentToken.kind) ||
+                                'omit'.startsWith(currentToken.value)
+                            )
+                        ) {
+                            let toErase: [number, number] = [(
+                                currentToken.kind === 'FUNC' || currentToken.kind === 'OMIT' ?
+                                    currentToken.value.length : 0
+                            ), 0]
+                            argOptions.unshift({
+                                icon: null,
+                                value: 'omit',
+                                realValue: `omit${isLast ? ')':', '}`,
+                                description: 'Argument is optional',
+                                toErase,
+                            });
+                        }
                     }
-                        
                 }
             });
 
@@ -423,14 +455,15 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
                     realValue: f.substring(val.length) + (nextToken?.kind === 'LPAREN' ? '': '('),
                     usage: [[
                         `${f}(${func.slice(1).map(v => {
-                            let val = v[0];
-                            if (!val) return val;
+                            return v[0];
+                            // let val = v[0];
+                            // if (!val) return val;
 
-                            let braceIndex = val.search(' \\(');
-                            if (braceIndex != -1) {
-                                val = val.substring(0, braceIndex);
-                            }
-                            return val;
+                            // let braceIndex = val.search(' \\(');
+                            // if (braceIndex != -1) {
+                            //     val = val.substring(0, braceIndex);
+                            // }
+                            // return val;
                         }).join(', ')})`,
                     []]],
                     link: `https://docs.kustom.rocks/docs/reference/functions/${func[0]}`,
