@@ -29,7 +29,7 @@ export default function Page() {
         <ComputerWindow
             top={200}
             left={20}
-            height={500}
+            height={600}
             width={330}
             delay={0.5}
         >
@@ -59,6 +59,15 @@ export default function Page() {
                     height={45}
                 />
                 <p>Lethal Calculator</p>
+            </InlineLink>
+            <InlineLink href={"/kustom-kompiler"}>
+                <Image
+                    src="/kustom-kompiler.png"
+                    alt="kustom-kompiler"
+                    width={45}
+                    height={45}
+                />
+                <p>Kustom Kompiler</p>
             </InlineLink>
             <h3>Via GitHub</h3>
             <div style={{position: 'relative'}}>

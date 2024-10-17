@@ -1,0 +1,49 @@
+
+
+.parent {
+
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    
+    > div {
+        font-size: 1.5rem;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        max-width: 1200px;
+
+        .disclaimer {
+            margin-bottom: 4rem;
+            color: #ffffff99;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            margin: 1rem 0;
+        }
+
+        p {
+            margin: 0.7rem 0;
+        }
+
+        code {
+            white-space: pre-wrap;
+            background-color: #00000078;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 1rem 0;
+        }
+
+        .inlineCode {
+            background-color: #00000078;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.5rem;
+        }
+
+    }
+
+}

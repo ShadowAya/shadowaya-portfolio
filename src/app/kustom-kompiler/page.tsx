@@ -1,5 +1,4 @@
 import Code from "@/components/kustom-kompiler/Code";
-import './styles.scss';
 
 export const metadata = {
     title: {

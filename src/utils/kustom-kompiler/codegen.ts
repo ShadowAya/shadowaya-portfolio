@@ -395,8 +395,8 @@ export const funcNameMap = {
     ]],
     systemNotification: ['ni', [
         "selector",
-        ['"count"', 'Cancellable notifications count', [1]],
-        ['"scount"', 'Persistent notifications count', [1]],
+        ['"count"', 'Cancellable notifications count', [1, 2]],
+        ['"scount"', 'Persistent notifications count', [1, 2]],
         ['"pcount"', "Notification count for package", [2]],
         ['0', 'First cancellable notification', [1]],
         ['1', 'Second cancellable notification', [1]],
@@ -665,7 +665,7 @@ export const funcNameMap = {
         ['0', 'Today'],
         ['1', 'Tomorrow'],
     ], [
-        'hours',
+        '*hours',
         ['0', 'Next hour'],
         ['3', '3 hours from now']
     ]],
