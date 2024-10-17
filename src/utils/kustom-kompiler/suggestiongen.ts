@@ -251,7 +251,7 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
             currentToken.kind === 'RPAREN'
         ) commaCount = -1;
         if (currentToken.kind === 'SEMICOL') commaCount = -1;
-        if (func[func.length - 1][0]?.startsWith("...") && commaCount >= func.length - 2) {
+        if (func[func.length - 1][0]?.substring(1).startsWith("..") && commaCount >= func.length - 2) {
             isRestArg = true;
         }
         commaTokensIndexes.push(-1);
@@ -308,7 +308,6 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
                     // regex check
                     for (const regexEntry of (argsListOnly[0] as string[]).filter(v => v[0].startsWith('REGEX'))) {
                         const regex = regexEntry[0].substring(5);
-                        console.log(regex, firstArgValue);
                         if (firstArgValue.match(regex)) onlyOmitList = regexEntry[1] as any;
                     }
 
