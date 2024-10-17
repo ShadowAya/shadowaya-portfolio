@@ -265,6 +265,7 @@ export default function Code() {
 
     useEffect(() => {
         if (zoom) localStorage.setItem('kustom-kompiler-zoom', zoom.toString());
+        updateCursorMeta();
     }, [zoom]);
 
     useEffect(() => {
