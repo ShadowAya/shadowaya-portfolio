@@ -737,20 +737,24 @@ export default class CodeGenerator {
         return this.visit_statements(this.ast);
     }
 
-    visit_statements(nodes: ASTNode[]): string {
-        return nodes.map((node) => this.visit(node)).join('');
+    visit_statements(nodes: ASTNode[], options?: {
+        expectIterator?: boolean,
+        nestedIf?: boolean
+    }): string {
+        return nodes.map((node) => this.visit(node, options)).join('');
     }
 
     visit(node: ASTNode, options?: {
-        expectIterator: boolean
+        expectIterator?: boolean,
+        nestedIf?: boolean
     }): string {
         if (Array.isArray(node)) {
-            return this.visit_statements(node);
+            return this.visit_statements(node, options);
         }
 
         switch (node.node_type) {
             case 'if_statement':
-                return this.visit_if_statement(node);
+                return this.visit_if_statement(node, options);
             case 'binary_expression':
                 return this.visit_binary_expression(node, options);
             case 'function':
@@ -795,25 +799,30 @@ export default class CodeGenerator {
         );
     }
 
-    visit_if_statement(node: ASTNode): string {
+    visit_if_statement(node: ASTNode, options?: {
+        nestedIf?: boolean
+    }): string {
+
+        console.log(node, options);
+
         const condition = this.visit(node.value as ASTNode);
         const if_body = this.visit((node.children[0]));
         const else_body = node.children[1] 
-            ? this.visit((node.children[1])) 
+            ? this.visit((node.children[1]), { nestedIf: true })
             : null; 
 
-        if (else_body === null) {
-            return this.wrapped_expression(`if(${condition}, ${if_body})`, node.block_active);
-        } else {
-            return this.wrapped_expression(
-                `if(${condition}, ${if_body}, ${else_body})`,
-                node.block_active
-            );
-        }
+        let content = else_body ? `${condition}, ${if_body}, ${else_body}` : `${condition}, ${if_body}`;
+        if (!options?.nestedIf) content = `if(${content})`;
+
+        return this.wrapped_expression(
+            content,
+            node.block_active
+        );
+        
     }
 
     visit_binary_expression(node: ASTNode, options?: {
-        expectIterator: boolean
+        expectIterator?: boolean
     }): string {
         const left = this.visit(node.children[0], options);
         const right = this.visit(node.children[1], options);

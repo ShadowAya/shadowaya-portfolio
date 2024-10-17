@@ -106,41 +106,50 @@ export default class Parser {
         }
     }
 
+    parse_statement(block_is_active: boolean = false): ASTNode {
+        let statement: ASTNode;
+        if (this.checkTokenType('IF')) {
+            statement = this.parse_if_statement(block_is_active);
+        } else if (this.checkTokenType('FOR')) {
+            statement = this.parse_for_loop(block_is_active);
+        } else if (this.checkTokenType('LVAR') || this.checkTokenType('GVAR')) {
+            statement = this.parse_var_declaration(block_is_active);
+        } else if (this.checkTokenType('EOF')) {
+            statement = new ASTNode('null', null, null, false, 0, 0);
+        } else {
+            statement = this.parse_expression(block_is_active);
+        }
+
+        if (this.checkTokenType('SEMICOL')) {
+            this.advance(); 
+        } else if (
+            this.pos > 0 && 
+            this.tokens[this.pos - 1]
+        ) {
+            let i = this.pos - 1;
+            while (this.tokens[i].kind === 'WS') i--;
+            
+            if (this.tokens[i].kind !== 'RBRACE' && this.tokens[i].kind !== 'SEMICOL')
+                this.errors.push(`Line ${this.current_token?.line??-1}:${this.current_token?.column??-1}: Expected ';' after statement, got: '${this.current_token?.value}'`);
+        }
+
+        return statement;
+    }
+
     parse_statements(block_is_active: boolean = false): ASTNode[] {
         const statements: ASTNode[] = [];
         let limit = 0;
         while (this.current_token && this.current_token.kind !== 'RBRACE') {
 
-            if (limit++ > 100) {
+            if (limit++ > 1000) {
                 this.errors = [`Line ${this.current_token.line}:${this.current_token.column}: Parser crashed inside a statement`, ''];
                 this.advanceToEnd();
                 break;
             }
 
-            if (this.checkTokenType('IF')) {
-                statements.push(this.parse_if_statement(block_is_active));
-            } else if (this.checkTokenType('FOR')) {
-                statements.push(this.parse_for_loop(block_is_active));
-            } else if (this.checkTokenType('LVAR') || this.checkTokenType('GVAR')) {
-                statements.push(this.parse_var_declaration(block_is_active));
-            } else if (this.checkTokenType('EOF')) {
-                break;
-            } else {
-                statements.push(this.parse_expression(block_is_active));
-            }
+            if (this.checkTokenType('EOF')) break;
+            statements.push(this.parse_statement(block_is_active));
 
-            if (this.checkTokenType('SEMICOL')) {
-                this.advance(); 
-            } else if (
-                this.pos > 0 && 
-                this.tokens[this.pos - 1]
-            ) {
-                let i = this.pos - 1;
-                while (this.tokens[i].kind === 'WS') i--;
-                
-                if (this.tokens[i].kind !== 'RBRACE')
-                    this.errors.push(`Line ${this.current_token.line}:${this.current_token.column}: Expected ';' after statement, got: '${this.current_token.value}'`);
-            }
         }
         return statements;
     }
@@ -191,18 +200,28 @@ export default class Parser {
         const condition = this.parse_expression(true);
 
         this.advanceAndCheck('RPAREN'); // consume ')'
-        this.advanceAndCheck('LBRACE'); // consume '{'
 
-        const if_body = this.parse_statements(true);
-        this.advanceAndCheck('RBRACE'); // consume '}'
+        let if_body: ASTNode[] | null = null;
+        if (this.checkTokenType('LBRACE')) {
+            this.advanceAndCheck('LBRACE'); // consume '{'
+            if_body = this.parse_statements(true);
+            this.advanceAndCheck('RBRACE'); // consume '}'
+        } else {
+            if_body = [this.parse_statement(true)];
+            // this.advance(); // consume ';'
+        }
 
         let else_body: ASTNode[] | null = null;
 
         if (this.checkTokenType('ELSE')) {
             this.advance(); // consume 'else'
-            this.advanceAndCheck('LBRACE'); // consume '{'
-            else_body = this.parse_statements(true);
-            this.advanceAndCheck('RBRACE'); // consume '}'
+            if (this.checkTokenType('LBRACE')) {
+                this.advanceAndCheck('LBRACE'); // consume '{'
+                else_body = this.parse_statements(true);
+                this.advanceAndCheck('RBRACE'); // consume '}'
+            } else {
+                else_body = [this.parse_statement(true)];
+            }
         }
 
         return new ASTNode(
