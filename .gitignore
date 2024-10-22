@@ -33,3 +33,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+src/utils/stratle/content.txt
+src/utils/stratle/content2.txt
