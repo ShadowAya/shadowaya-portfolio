@@ -35,3 +35,4 @@ yarn-error.log*
 next-env.d.ts
 src/utils/stratle/content.txt
 src/utils/stratle/content2.txt
+src/utils/stratle/stratagems.json
