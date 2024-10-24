@@ -170,6 +170,10 @@ export default function Inputs() {
                 <div className={styles.armedhidden}>
                     <Dashed absolute='15px' />
                     <span><span>{armedStratagems.length}</span> Stratagems Armed</span>
+                    <span>
+                        Checking a list of stratagems and not using your
+                        memory from the battlefield will be considered treason
+                    </span>
                 </div>
                 {armedStratagems.map((stratagem, i) => (
                     <div key={i} className={styles.stratagemitem}>
