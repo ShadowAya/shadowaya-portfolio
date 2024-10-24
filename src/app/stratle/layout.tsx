@@ -15,7 +15,7 @@ export const metadata: Metadata = {
         url: 'https://shadowaya.me/stratle',
         title: 'Stratle',
         siteName: 'Stratle',
-        description: 'A Worldle Game for HELLDIVERS 2 Stratagems',
+        description: 'A Wordle Game for HELLDIVERS 2 Stratagems',
         images: ['https://shadowaya.me/hd2-bg.png']
     },
     twitter: {
