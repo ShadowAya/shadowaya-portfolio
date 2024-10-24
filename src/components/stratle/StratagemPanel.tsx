@@ -38,7 +38,7 @@ export default function StratagemPanel({ staticStratagem }: StratagemPanelProps)
                     </div>
                 </div>
                 <div className={styles.icon}>
-                    {!staticStratagem || !stratagem.icon || ((gameMeta.currentGame === 'daily' || !game.didLose) && !game.didWin) ?
+                    {!stratagem.icon || (!staticStratagem && ((gameMeta.currentGame === 'daily' || !game.didLose) && !game.didWin)) ?
                         <Dashed height="72px" width="72px" small /> :
                         <Image
                             src={'https://helldivers.wiki.gg/' + stratagem.icon}

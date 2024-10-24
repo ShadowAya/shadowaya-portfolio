@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import styles from './Inputs.module.scss';
 import { useGame } from './context/GameContext';
 import { useStratagems } from './context/StratagemsContext';
@@ -23,26 +23,36 @@ export default function Inputs() {
     const [currentInputs, setCurrentInputs] = useState<('up' | 'right' | 'down' | 'left')[]>([]);
     const currentInputsRef = useRef(currentInputs);
 
-    const [armedStratagems, setArmedStratagems] = useState<Stratagem[]>(stratagemMeta.stratagems);
-    const [highlightedArrows, setHighlightedArrows] = useState<number>(0);
+    // const [armedStratagems, setArmedStratagems] = useState<Stratagem[]>(stratagemMeta.stratagems);
+    // const [highlightedArrows, setHighlightedArrows] = useState<number>(0);
 
-    useEffect(() => {
-        const handler = setTimeout(() => {
-            const filteredStratagems = armedStratagems.filter(stratagem => {
-                return stratagem.code.join('').startsWith(currentInputs.join(''));
-            });
-            setHighlightedArrows(currentInputs.length);
-            setArmedStratagems(filteredStratagems);
-        }, 200);
+    // useEffect(() => {
+    //     const handler = setTimeout(() => {
+    //         const filteredStratagems = armedStratagems.filter(stratagem => {
+    //             return stratagem.code.join('').startsWith(currentInputs.join(''));
+    //         });
+    //         setHighlightedArrows(currentInputs.length);
+    //         setArmedStratagems(filteredStratagems);
+    //     }, 200);
 
-        return () => {
-            clearTimeout(handler);
-        };
-    }, [currentInputs, stratagemMeta.stratagems]);
+    //     return () => {
+    //         clearTimeout(handler);
+    //     };
+    // }, [currentInputs, stratagemMeta.stratagems]);
 
-    useEffect(() => {
-        console.log(game);
-    }, [game]);
+    const [precomputedStratagems, setPrecomputedStratagems] = useState(() => {
+        return stratagemMeta.stratagems.map(s => ({
+            ...s,
+            codeString: s.code.join('')
+        }));
+    });
+    
+    // Filter using the precomputed strings
+    const armedStratagems = useMemo(() => {
+        return precomputedStratagems.filter(stratagem =>
+            stratagem.codeString.startsWith(currentInputs.join(''))
+        );
+    }, [currentInputs, precomputedStratagems]);
 
     useEffect(() => {
 
@@ -55,16 +65,14 @@ export default function Inputs() {
             stratagem.code.join('') === currentInputs.join('')
         ) {
             // game won
-            console.log('game won');
             game.won();
         } else if (game.inputs.length > 4) {
             // game lost
-            console.log('game lost');
             game.lost();
         }
 
         game.addInput(currentInputs);
-        setArmedStratagems(stratagemMeta.stratagems);
+        // setArmedStratagems(stratagemMeta.stratagems);
         setCurrentInputs([]);
 
     }, [armedStratagems]);
@@ -105,24 +113,46 @@ export default function Inputs() {
         currentInputsRef.current = currentInputs;
     }, [currentInputs]);
 
+    function mapArrows(arrows: ('up' | 'right' | 'down' | 'left')[]): ArrowListProps['arrows'] {
+
+        const counts = {
+            up: 0,
+            right: 0,
+            down: 0,
+            left: 0,
+        }
+
+        stratagem.code.forEach(arrow => {
+            counts[arrow]++;
+        });
+
+        return arrows.map((arrow, i) => {
+
+            const ret: ArrowListProps['arrows'][0] = {
+                direction: arrow,
+                col: (stratagem.code[i] === arrow ? 'green' : (
+                    stratagem.code.includes(arrow) && counts[arrow] > 0 ? 'yellow' : 'red'
+                ))
+            };
+
+            counts[arrow]--;
+
+            return ret;
+        });
+    }
+
     return (<div className={styles.inputs}>
         <Dialog />
         <div className={styles.arrowcontainer}>
             {game.inputs.map((arrows, i) => (
-                // @todo count yellow arrows
-                <ArrowList key={i} arrows={arrows.map((arrow, i2) => ({
-                    direction: arrow,
-                    col: (stratagem.code[i2] === arrow ? 'green' : (
-                        stratagem.code.includes(arrow) ? 'yellow' : 'red'
-                    )) satisfies 'green' | 'yellow' | 'red',
-                }))} />
+                <ArrowList key={i} arrows={mapArrows(arrows)} />
             ))}
             {
                 !(game.didLose || game.didWin) &&
                 <ArrowList resetFn={() => {
                     setCurrentInputs([]);
-                    setArmedStratagems(stratagemMeta.stratagems);
-                    setHighlightedArrows(0);
+                    // setArmedStratagems(stratagemMeta.stratagems);
+                    // setHighlightedArrows(0);
                 }} arrows={currentInputs.map(a => ({ direction: a, col: 'none' }))}/>
             }
         </div>
@@ -149,7 +179,7 @@ export default function Inputs() {
                                 {stratagem.code.map((arrow, i) => (
                                     <Image
                                         style={{
-                                            opacity: i < highlightedArrows ? 1 : 0.4
+                                            opacity: i < currentInputs.length ? 1 : 0.4
                                         }}
                                         key={i}
                                         src={`/hd2arrows/${arrow}.png`}
