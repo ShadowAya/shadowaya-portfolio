@@ -9,7 +9,7 @@ interface LayoutProps {
 
 export const metadata: Metadata = {
     title: 'Stratle',
-    description: 'A Worldle Game for HELLDIVERS 2 Stratagems',
+    description: 'A Wordle Game for HELLDIVERS 2 Stratagems',
     openGraph: {
         type: 'website',
         url: 'https://shadowaya.me/stratle',
