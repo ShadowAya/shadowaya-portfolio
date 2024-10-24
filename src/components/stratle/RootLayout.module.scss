@@ -1,9 +1,9 @@
 
 .page {
-    max-height: calc(100% - 100px);
-    height: calc(100% - 100px);
-    overflow: clip;
-    padding: 50px;
+    
+    height: 850px;
+    width: 1730px;
+
     display: flex;
     flex-direction: column;
 
@@ -66,6 +66,31 @@
             font-size: 1.2rem;
         }
 
+    }
+
+}
+
+.layout {
+    padding: 50px;
+    box-sizing: border-box;
+    overflow: auto;
+    max-height: 100%;
+    max-width: 100%;
+
+    
+    &::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #ffffffd1;
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: #00000040;
+        border-radius: 4px;
     }
 
 }

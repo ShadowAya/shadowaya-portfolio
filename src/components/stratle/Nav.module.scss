@@ -1,7 +1,13 @@
 
 .nav {
-    font-family: 'HD2 Regular';
+
     display: flex;
-    gap: 15px;
-    height: 70px;
+    justify-content: space-between;
+
+    > div:nth-child(1) {
+        font-family: 'HD2 Regular';
+        display: flex;
+        gap: 15px;
+        height: 70px;
+    }
 }

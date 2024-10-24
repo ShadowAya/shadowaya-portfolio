@@ -9,6 +9,7 @@ import Dashed from './Dashed';
 import Image from 'next/image';
 import { type Stratagem } from '@/utils/stratle/utils';
 import Dialog from './Dialog';
+import cn from 'classnames';
 
 export default function Inputs() {
 
@@ -22,6 +23,9 @@ export default function Inputs() {
 
     const [currentInputs, setCurrentInputs] = useState<('up' | 'right' | 'down' | 'left')[]>([]);
     const currentInputsRef = useRef(currentInputs);
+
+    const difficultyMultiplier = [0, 1, 2, 2, 3][game.difficulty - 1];
+    const hideArmed = game.difficulty > 3;
 
     // const [armedStratagems, setArmedStratagems] = useState<Stratagem[]>(stratagemMeta.stratagems);
     // const [highlightedArrows, setHighlightedArrows] = useState<number>(0);
@@ -66,7 +70,7 @@ export default function Inputs() {
         ) {
             // game won
             game.won();
-        } else if (game.inputs.length > 4) {
+        } else if (game.inputs.length > (4 - difficultyMultiplier)) {
             // game lost
             game.lost();
         }
@@ -162,7 +166,11 @@ export default function Inputs() {
                 <span>ARMING</span>
                 <div />
             </div>
-            <Box hideTop className={styles.stratagemlist}>
+            <Box hideTop className={cn(styles.stratagemlist, hideArmed && styles.hidden)}>
+                <div className={styles.armedhidden}>
+                    <Dashed absolute='15px' />
+                    <span><span>{armedStratagems.length}</span> Stratagems Armed</span>
+                </div>
                 {armedStratagems.map((stratagem, i) => (
                     <div key={i} className={styles.stratagemitem}>
                         <div>{

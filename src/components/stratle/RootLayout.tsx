@@ -32,7 +32,7 @@ export default async function RootLayout({ children }: LayoutProps) {
     const content = await getStratagemList();
     const index = getRandomIndexByDate(content.length);
 
-    return <section className={styles.page}>
+    return <div className={styles.layout}><section className={styles.page}>
         <StratagemProvider stratagems={content} todayIndex={index}>
         <GameProvider>
         <Image
@@ -64,6 +64,6 @@ export default async function RootLayout({ children }: LayoutProps) {
                 {children}
             </div>
         </div>
-    </GameProvider></StratagemProvider></section>
+    </GameProvider></StratagemProvider></section></div>
 
 }

@@ -89,6 +89,38 @@
                 font-weight: 800;
             }
 
+            &.hidden {
+
+                .stratagemitem {
+                    display: none;
+                }
+
+                .armedhidden {
+                    display: grid;
+                }
+
+            }
+
+            .armedhidden {
+                display: none;
+
+                height: calc(100% - 10px);
+                place-items: center;
+
+                > div {
+                    opacity: 0.5;
+                }
+
+                > span {
+                    font-size: 25px;
+                    font-weight: 800;
+                    > span {
+                        color: #d9cc35;
+                    }
+                }
+
+            }
+
             .stratagemitem {
 
                 display: flex;
@@ -113,6 +145,7 @@
                     display: flex;
                     gap: 10px;
                     justify-content: space-between;
+                    align-items: center;
 
                     > div {
                         display: flex;

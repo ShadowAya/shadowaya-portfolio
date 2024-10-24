@@ -2,6 +2,7 @@ import Order from "@/components/stratle/Order";
 import styles from './page.module.scss';
 import StratagemPanel from "@/components/stratle/StratagemPanel";
 import Inputs from "@/components/stratle/Inputs";
+import DifficultyPicker from "@/components/stratle/DifficultyPicker";
 
 export default function Page() {
 
