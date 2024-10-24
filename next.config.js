@@ -15,7 +15,7 @@ const nextConfig = {
             },
             {
                 source: '/stratle',
-                destination: '/stratle/game?mode=1',
+                destination: '/stratle/game',
                 permanent: true,
             }
         ]

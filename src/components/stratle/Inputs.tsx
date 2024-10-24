@@ -109,6 +109,7 @@ export default function Inputs() {
         <Dialog />
         <div className={styles.arrowcontainer}>
             {game.inputs.map((arrows, i) => (
+                // @todo count yellow arrows
                 <ArrowList key={i} arrows={arrows.map((arrow, i2) => ({
                     direction: arrow,
                     col: (stratagem.code[i2] === arrow ? 'green' : (
