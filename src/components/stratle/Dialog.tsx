@@ -25,7 +25,7 @@ export default function Dialog() {
             { game.didLose &&
                 <Box>
                     <h1>GAME OVER</h1>
-                    <p>You couldn't guess the stratagem in time</p>
+                    <p>You couldn&apos;t guess the stratagem in time</p>
                     <button
                         onClick={() => game.restart()}
                     >
