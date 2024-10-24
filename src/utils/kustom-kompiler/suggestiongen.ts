@@ -354,7 +354,7 @@ export default function generateSuggestions(tokens: Token[], cursorMeta: CursorM
                                 ) && (
                                     !onlyOmitList.includes(vi)
                                 ) && (
-                                    !val.match(/^.+\(.*$/g) || !hasBrace
+                                    (!val.match(/^.+\(.*$/g) || !hasBrace)
                                     // dont suggest anything containing functions if a function is already entered
                                 ) && (
                                     ['COMMA', 'LPAREN', 'WS'].includes(currentToken.kind) ||

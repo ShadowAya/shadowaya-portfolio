@@ -1,0 +1,11 @@
+
+
+.dashed {
+    --dash-col: #ffffff30;
+    --dashes-deg: 135deg;
+
+    background-image: linear-gradient(var(--dashes-deg), var(--dash-col) 25%, transparent 25%, transparent 50%, var(--dash-col) 50%, var(--dash-col) 75%, transparent 75%, transparent);
+    background-size: 20px 20px;
+
+    box-sizing: border-box;
+}

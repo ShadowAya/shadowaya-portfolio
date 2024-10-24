@@ -1,0 +1,138 @@
+
+
+.info {
+    height: 60%;
+    width: 100%;
+    background-color: #00000069;
+
+    display: flex;
+    flex-direction: column;
+    gap: 15%;
+
+    padding: 20px 20px 40px 20px;
+
+    box-sizing: border-box;
+
+    span {
+        position: relative;
+    }
+
+    .title {
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        gap: 20px;
+
+        > div {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            gap: 20px;
+        }
+
+        .line {
+            height: 90px;
+            width: 5px;
+            border-radius: 5px;
+            background-color: #d9cc35;
+        }
+
+        .titles {
+            display: flex;
+            flex-direction: column;
+            > span:nth-of-type(1) {
+                font-size: 20px;
+            }
+            > span:nth-of-type(2) {
+                font-size: 30px;
+                font-weight: 900;
+                letter-spacing: 1px;
+            }
+            > span:nth-of-type(3) {
+                font-size: 18px;
+            }
+        }
+
+        .icon {
+            padding-right: 20px;
+        }
+
+    }
+
+    .details {
+        display: flex;
+        flex-direction: row;
+        gap: 50px;
+        height: 100%;
+
+        .box {
+            padding: 20px 17px;
+            box-sizing: border-box;
+            height: 205px;
+            max-height: 205px;
+        }
+
+        > * {
+            flex: 1;
+            position: relative;
+            height: 100%;
+
+            .heading {
+                position: absolute;
+                top: -14px;
+                left: -3px;
+                width: calc(100% + 6px);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                span {
+                    font-size: 20px;
+                    font-weight: 900;
+                    letter-spacing: 1px;
+                    color: #ffffff9c;
+                }
+
+                div:nth-of-type(1) {
+                    width: 10px;
+                    height: 3px;
+                    background-color: #ffffff64;
+                }
+                div:nth-of-type(2) {
+                    flex: 1;
+                    height: 3px;
+                    background-color: #ffffff64;
+                }
+
+            }
+
+            .spaced {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 8px;
+
+                > span:nth-of-type(1) {
+                    color: #ffffff9c;
+                }
+                > span:nth-of-type(2) {
+                    color: #fff;
+                }
+
+            }
+
+            .notspaced {
+                margin-bottom: 8px;
+            }
+
+        }
+    }
+
+}
+
+.fadeout {
+    opacity: 0;
+    width: 0 !important;
+    transition: 0.2s ease;
+}

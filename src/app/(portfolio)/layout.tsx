@@ -7,7 +7,7 @@ import { MonitorMain, MonitorSecondary } from "@/components/ui/Monitors";
 import SideNav from "@/components/ui/SideNav";
 import TopWarning from "@/components/ui/TopWarning";
 import MonitorIcon from "@/components/ui/computerContents/MonitorIcon";
-import Loading from "../loading";
+import Loading from "./loadingpage";
 import styles from './layout.module.scss';
 
 

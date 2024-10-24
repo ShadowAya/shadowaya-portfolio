@@ -12,9 +12,27 @@ const nextConfig = {
                 source: '/kustom-kompiler/:slug((?!docs).*)',
                 destination: '/kustom-kompiler',
                 permanent: true,
+            },
+            {
+                source: '/stratle',
+                destination: '/stratle/game?mode=1',
+                permanent: true,
             }
         ]
-    }
+    },
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'helldivers.wiki.gg',
+                port: '',
+                pathname: '/**',
+            }
+        ]
+    },
+    experimental: {
+        serverComponentsExternalPackages: ['libxmljs'],
+    },
 }
 
 module.exports = nextConfig

@@ -1,0 +1,102 @@
+
+.item {
+
+    width: 200px;
+    height: 45px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    transition: 0.2s ease;
+
+    &:hover {
+        .num {
+            color: #ffffff;
+        }
+        .box1, .box2 {
+            --box-border-col: #ffffff !important;
+        }
+        .title {
+            color: #ffffff;
+        }
+    }
+
+    .num {
+        color: #ffffff64;
+        font-size: 1.5rem;
+        transition: 0.2s ease;
+
+        height: 70px;
+        display: flex;
+        align-items: flex-end;
+    }
+
+    .title {
+        color: #ffffffb0;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-left: 15px;
+        transition: 0.2s ease;
+    }
+
+    .box1, .box2 {
+        padding: 5px 5px 5px 10px;
+        position: relative;
+    }
+
+    .box1 {
+        height: 100%;
+        width: calc(80% - 40px);
+        max-width: calc(80% - 40px);
+        min-width: calc(80% - 40px);
+        overflow: visible;
+    }
+
+    .box2 {
+        height: 100%;
+        width: 40px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .deco1 {
+        left: 7px;
+        width: calc(100% - 7px);
+    }
+    .deco2 {
+        right: 7px;
+        width: calc(100% - 7px);
+    }
+
+    .deco1, .deco2 {
+        position: absolute;
+        height: 0px;
+        bottom: 7px;
+        transition: 0.2s ease;
+    }
+
+}
+
+.item.selected {
+
+    height: 58px;
+
+    .num {
+        color: #ffffff;
+    }
+
+    .title {
+        color: #ffffff;
+    }
+
+    .box1, .box2 {
+        --box-border-col: #ffffff !important;
+    }
+
+    .deco1, .deco2 {
+        height: 15px;
+    }
+
+}

@@ -39,6 +39,7 @@ export default function ComputerWindow({
                 duration: 0.8,
                 ease: 'easeInOut',
             }}
+            // @ts-ignore
             className={styles.window}
             style={{
                 height, width, top, left
