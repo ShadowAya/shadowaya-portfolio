@@ -119,12 +119,18 @@
                     }
                 }
 
-                > span:nth-of-type(2) {
+                > .treasondisclaimer {
                     font-size: 16px;
                     max-width: 400px;
                     white-space: pre-wrap;
                     text-align: center;
                     font-style: italic;
+                }
+
+                > .othergameblock {
+                    text-align: center;
+                    font-size: 20px;
+                    max-width: 400px;
                 }
 
             }

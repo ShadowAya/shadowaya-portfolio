@@ -9,6 +9,7 @@ interface DashedProps {
     rotate?: boolean;
     small?: boolean;
     className?: string;
+    color?: string;
 }
 
 export default function Dashed({
@@ -18,6 +19,7 @@ export default function Dashed({
     rotate = false,
     small = false,
     className,
+    color,
 }: DashedProps) {
     return <div
         className={cn(styles.dashed, className)}
@@ -28,6 +30,7 @@ export default function Dashed({
             top: absolute,
             left: absolute,
             '--dashes-deg': rotate ? '225deg' : '135deg',
+            '--dash-col': color,
             backgroundSize: small ? '10px 10px' : '20px 20px',
         }}
     />

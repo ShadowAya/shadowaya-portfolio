@@ -6,6 +6,7 @@ import Box from "@/components/stratle/Box";
 import Nav from "@/components/stratle/Nav";
 import { StratagemProvider } from "./context/StratagemsContext";
 import { GameProvider } from "./context/GameContext";
+import TreasonWarning from "./TreasonWarning";
 
 interface LayoutProps {
     children?: React.ReactNode;
@@ -64,6 +65,7 @@ export default async function RootLayout({ children }: LayoutProps) {
                 {children}
             </div>
         </div>
+        <TreasonWarning />
     </GameProvider></StratagemProvider></section></div>
 
 }

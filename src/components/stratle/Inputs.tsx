@@ -27,6 +27,10 @@ export default function Inputs() {
     const difficultyMultiplier = [0, 1, 2, 2, 3][game.difficulty - 1];
     const hideArmed = game.difficulty > 3;
 
+    const otherGame = gameMeta[gameMeta.currentGame === 'daily' ? 'endless' : 'daily'];
+    const hideArmedOtherGamemode = 
+        otherGame.difficulty >= 4 && otherGame.inputs.length > 0 && !(otherGame.didWin || otherGame.didLose);
+
     // const [armedStratagems, setArmedStratagems] = useState<Stratagem[]>(stratagemMeta.stratagems);
     // const [highlightedArrows, setHighlightedArrows] = useState<number>(0);
 
@@ -51,7 +55,6 @@ export default function Inputs() {
         }));
     });
     
-    // Filter using the precomputed strings
     const armedStratagems = useMemo(() => {
         return precomputedStratagems.filter(stratagem =>
             stratagem.codeString.startsWith(currentInputs.join(''))
@@ -166,11 +169,16 @@ export default function Inputs() {
                 <span>ARMING</span>
                 <div />
             </div>
-            <Box hideTop className={cn(styles.stratagemlist, hideArmed && styles.hidden)}>
+            <Box hideTop className={cn(styles.stratagemlist, (hideArmed || hideArmedOtherGamemode) && styles.hidden)}>
                 <div className={styles.armedhidden}>
                     <Dashed absolute='15px' />
                     <span><span>{armedStratagems.length}</span> Stratagems Armed</span>
-                    <span>
+                    {!hideArmed && hideArmedOtherGamemode && <span className={styles.othergameblock}>
+                        {"Your running high difficulty "}
+                        {gameMeta.currentGame === 'daily' ? 'endless' : 'daily'}
+                        {" game is blocking the list"}
+                    </span>}
+                    <span className={styles.treasondisclaimer}>
                         Checking a list of stratagems and not using your
                         memory from the battlefield will be considered treason
                     </span>
