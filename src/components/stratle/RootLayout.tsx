@@ -7,6 +7,8 @@ import Nav from "@/components/stratle/Nav";
 import { StratagemProvider } from "./context/StratagemsContext";
 import { GameProvider } from "./context/GameContext";
 import TreasonWarning from "./TreasonWarning";
+import MoreInfo from "./MoreInfo";
+import moment from 'moment-timezone';
 
 interface LayoutProps {
     children?: React.ReactNode;
@@ -21,10 +23,9 @@ function hashString(str: string) {
 }
   
 function getRandomIndexByDate(length: number) {
-    const currentDate = new Date().toISOString().split('T')[0]; // Get the current date (yyyy-mm-dd)
+    const currentDate = moment().tz('UTC').format('YYYY-MM-DD');
     const hash = hashString(currentDate);
     
-    // Pick an item using the hash value
     return hash % length;
 }
 
@@ -66,6 +67,7 @@ export default async function RootLayout({ children }: LayoutProps) {
             </div>
         </div>
         <TreasonWarning />
+        <MoreInfo />
     </GameProvider></StratagemProvider></section></div>
 
 }

@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { type Stratagem } from '@/utils/stratle/utils';
 import Dialog from './Dialog';
 import cn from 'classnames';
+import TouchControls from './TouchControls';
 
 export default function Inputs() {
 
@@ -90,6 +91,8 @@ export default function Inputs() {
 
         if (inputs.length >= 8) return;
 
+        console.log(e.key);
+
         switch (e.key) {
             case 'ArrowUp':
                 setCurrentInputs(v => [...v, 'up']);
@@ -102,6 +105,9 @@ export default function Inputs() {
                 break;
             case 'ArrowLeft':
                 setCurrentInputs(v => [...v, 'left']);
+                break;
+            case 'Backspace':
+                setCurrentInputs(v => v.slice(0, -1));
                 break;
         }
     }
@@ -164,6 +170,7 @@ export default function Inputs() {
             }
         </div>
         <div className={styles.controls}>
+            <TouchControls setInput={setCurrentInputs} />
             <div className={styles.heading}>
                 <div />
                 <span>ARMING</span>
