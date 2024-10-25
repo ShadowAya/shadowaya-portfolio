@@ -10,7 +10,7 @@ export default function MoreInfo() {
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [isBrowserFullscreen, setIsBrowserFullscreen] = useState(false);
     const isBrowserFullscreenRef = useRef(false);
-    const [isVertical, setIsVertical] = useState(false);
+    // const [isVertical, setIsVertical] = useState(false);
 
     const [showInfo, setShowInfo] = useState(false);
   
@@ -34,13 +34,13 @@ export default function MoreInfo() {
                 setIsBrowserFullscreen(false);
             }
 
-            setIsVertical(window.innerHeight > window.innerWidth);
+            // setIsVertical(window.innerHeight > window.innerWidth);
         }
     
         document.addEventListener('fullscreenchange', handleFullscreenChange);
         window.addEventListener('resize', handleBrowserFullscreenChange);
 
-        setIsVertical(window.innerHeight > window.innerWidth);
+        // setIsVertical(window.innerHeight > window.innerWidth);
     
         return () => {
             document.removeEventListener('fullscreenchange', handleFullscreenChange);
@@ -62,12 +62,12 @@ export default function MoreInfo() {
 
 
     return <div className={styles.more}>
-        { isVertical ?
+        {/* { isVertical ?
             <div className={styles.left}>
                 <Iconify icon="dashicons:image-rotate-right" height={24} />
                 <span>Go horizontal!</span>
             </div> : <div />
-        }
+        } */}
         <div className={styles.right}>
             {!isBrowserFullscreen &&
                 <button onClick={() => toggleFullscreen()}>

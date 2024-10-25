@@ -8,22 +8,23 @@
     bottom: 0;
     right: 10px;
 
-    width: calc(100% - 40px);
+    // width: calc(100% - 40px);
 
     display: flex;
-    justify-content: space-between;
+    gap: 10px;
+    //justify-content: space-between;
 
-    > .left {
-        background-color: #000000;
-        padding: 5px 10px;
-        border-radius: 10px 10px 0 0;
-        color: white;
+    // > .left {
+    //     background-color: #000000;
+    //     padding: 5px 10px;
+    //     border-radius: 10px 10px 0 0;
+    //     color: white;
 
-        display: flex;
-        gap: 10px;
-        align-items: center;
+    //     display: flex;
+    //     gap: 10px;
+    //     align-items: center;
 
-    }
+    // }
 
     > .right {
         display: flex;
@@ -54,6 +55,7 @@
             > div {
     
                 display: none;
+                font-family: 'HD2 Regular';
     
                 &.show {
                     display: flex;
