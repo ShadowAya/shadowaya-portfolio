@@ -1,8 +1,8 @@
-import { permanentRedirect } from "next/navigation";
+// import { permanentRedirect } from "next/navigation";
 
 
 export default function Page() {
 
-    return permanentRedirect('/stratle/game');
+    return null; // permanentRedirect('/stratle/game');
 
 }
