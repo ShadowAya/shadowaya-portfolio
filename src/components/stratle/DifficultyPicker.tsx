@@ -65,7 +65,9 @@ export default function DifficultyPicker() {
 
     return <div className={styles.picker}>
         {
-            game.inputs.length === 0 && <>
+            game.inputs.length === 0 &&
+            game.completions === 0
+            && <>
                 <button onClick={() => changeDifficulty(false)}>
                     <Iconify icon="fe:arrow-left" height={60} />
                 </button>

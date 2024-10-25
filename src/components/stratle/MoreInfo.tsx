@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Iconify from '../Iconify';
 import styles from './MoreInfo.module.scss';
 import cn from 'classnames';
@@ -9,6 +9,7 @@ export default function MoreInfo() {
 
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [isBrowserFullscreen, setIsBrowserFullscreen] = useState(false);
+    const isBrowserFullscreenRef = useRef(false);
     const [isVertical, setIsVertical] = useState(false);
 
     const [showInfo, setShowInfo] = useState(false);
@@ -23,7 +24,7 @@ export default function MoreInfo() {
   
         function handleBrowserFullscreenChange() {
             const isWindowFullscreen = window.innerWidth === screen.width && window.innerHeight === screen.height;
-            const isExitingBrowserFullscreen = isBrowserFullscreen && !isWindowFullscreen;
+            const isExitingBrowserFullscreen = isBrowserFullscreenRef && !isWindowFullscreen;
     
             if (!document.fullscreenElement && isWindowFullscreen) {
                 setIsBrowserFullscreen(true);
@@ -46,6 +47,10 @@ export default function MoreInfo() {
             window.removeEventListener('resize', handleBrowserFullscreenChange);
         };
     }, []);
+
+    useEffect(() => {
+        isBrowserFullscreenRef.current = isBrowserFullscreen;
+    }, [isBrowserFullscreen]);
     
     function toggleFullscreen() {
         if (!document.fullscreenElement) {

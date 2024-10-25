@@ -7,6 +7,7 @@ import { useStratagems } from '@/components/stratle/context/StratagemsContext';
 import Image from 'next/image';
 import cn from 'classnames';
 import Box from '@/components/stratle/Box';
+import Dashed from '@/components/stratle/Dashed';
 
 export default function Page() {
 
@@ -35,12 +36,12 @@ export default function Page() {
                             )} key={stratagem.name} onClick={() => setSelectedStratagemIndex(index)}>
                                 <div>
                                     {
-                                        stratagem.icon && <Image
+                                        stratagem.icon ? <Image
                                             src={'https://helldivers.wiki.gg/' + stratagem.icon}
                                             width={38}
                                             height={38}
                                             alt="icon"
-                                        />
+                                        /> : <Dashed small width='38px' height='38px' />
                                     }
                                     <span>{stratagem.name}</span>
                                 </div>

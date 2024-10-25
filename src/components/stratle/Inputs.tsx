@@ -91,8 +91,6 @@ export default function Inputs() {
 
         if (inputs.length >= 8) return;
 
-        console.log(e.key);
-
         switch (e.key) {
             case 'ArrowUp':
                 setCurrentInputs(v => [...v, 'up']);

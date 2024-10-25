@@ -14,7 +14,7 @@ const nextConfig = {
                 permanent: true,
             },
             {
-                source: '/stratle',
+                source: '/stratle/:slug((?!game|library).*)',
                 destination: '/stratle/game',
                 permanent: true,
             }
