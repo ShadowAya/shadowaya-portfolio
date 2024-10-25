@@ -1,3 +1,5 @@
+'use client';
+
 import cn from "classnames";
 import styles from './Box.module.scss';
 

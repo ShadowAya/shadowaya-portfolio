@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useStratagems } from '@/components/stratle/context/StratagemsContext';
 import Image from 'next/image';
 import cn from 'classnames';
+import Box from '@/components/stratle/Box';
 
 export default function Page() {
 
@@ -26,7 +27,7 @@ export default function Page() {
                     <span>STRATAGEM LIST</span>
                     <div />
                 </div>
-                <div className={styles.content}>
+                <Box className={styles.content} hideTop>
                     {
                         stratagems.map((stratagem, index) => (
                             <a className={cn(
@@ -59,7 +60,7 @@ export default function Page() {
                             </a>
                         ))
                     }
-                </div>
+                </Box>
             </div>
             <div>
                 {

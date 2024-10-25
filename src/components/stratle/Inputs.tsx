@@ -176,7 +176,10 @@ export default function Inputs() {
                 <span>ARMING</span>
                 <div />
             </div>
-            <Box hideTop className={cn(styles.stratagemlist, (hideArmed || hideArmedOtherGamemode) && styles.hidden)}>
+            <Box
+                hideTop
+                className={cn(styles.stratagemlist, (hideArmed || hideArmedOtherGamemode) && styles.hidden)}
+            >
                 <div className={styles.armedhidden}>
                     <Dashed absolute='15px' />
                     <span><span>{armedStratagems.length}</span> Stratagems Armed</span>
@@ -221,6 +224,7 @@ export default function Inputs() {
                 ))}
             </Box>
         </div>
+        <div></div>
     </div>)
 }
 
@@ -252,14 +256,15 @@ function ArrowList({ arrows, resetFn }: ArrowListProps) {
                 <div key={i} />
             ))
         }
-        {resetFn &&
+        {resetFn ?
             <button
                 className={styles.reset}
                 onClick={resetFn}
             >
                 <Dashed absolute='4px' />
                 <span>Reset Input</span>
-            </button>
+            </button> :
+            <button className={styles.noreset} disabled><span>Reset Input</span></button>
         }
     </div>)
 }

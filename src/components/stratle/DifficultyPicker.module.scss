@@ -4,6 +4,11 @@
     width: 400px;
     position: relative;
 
+    @media (max-width: 768px) {
+        margin-right: -50px;
+        width: 390px;
+    }
+
     display: flex;
     justify-content: space-between;
 
@@ -86,7 +91,7 @@
 
     span:nth-of-type(2) {
         color: #ffffffa1;
-        font-size: 16px;
+        font-size: 15px;
     }
 
     &.toleft {

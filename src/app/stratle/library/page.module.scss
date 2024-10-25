@@ -4,6 +4,10 @@
     display: grid;
     grid-template-columns: 50% 50%;
 
+    @media (max-width: 768px) {
+        grid-template-columns: 100%;
+    }
+
     > div:nth-of-type(1) {
         margin-top: 13px;
         padding: 0 10px;
@@ -41,9 +45,6 @@
         }
 
         > .content {
-
-            border: 3px solid #ffffff64;
-            border-top: none;
 
             box-sizing: border-box;
             padding: 20px;
