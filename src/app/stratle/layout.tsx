@@ -22,7 +22,8 @@ export const metadata: Metadata = {
         creator: '@shadow_aya_dev',
         card: 'summary_large_image',
         images: ['https://shadowaya.me/hd2-bg.png']
-    }
+    },
+    manifest: "/stratle-manifest.json",
 }
 
 export default function Layout({ children }: LayoutProps) {

@@ -1,5 +1,9 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# pwa
+**/public/sw.js
+**/public/workbox-*.js
+
 # dependencies
 /node_modules
 /.pnp
@@ -36,3 +40,5 @@ next-env.d.ts
 src/utils/stratle/content.txt
 src/utils/stratle/content2.txt
 src/utils/stratle/stratagems.json
+
+certificates

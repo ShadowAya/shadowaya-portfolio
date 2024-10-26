@@ -1,0 +1,33 @@
+{
+    "name": "Stratle",
+    "short_name": "Stratle",
+    "description": "A Wordle Game for HELLDIVERS 2 Stratagems",
+    "start_url": "/stratle",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#d9cc35",
+    "icons": [
+        {
+            "src": "/stratle-icon-192.png", 
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/stratle-icon-512.png", 
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "/stratle-icon-mono-192.png", 
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "monochrome"
+        },
+        {
+            "src": "/stratle-icon-mono-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "monochrome"
+        }
+    ]
+}

@@ -13,8 +13,33 @@ export default function MoreInfo() {
     // const [isVertical, setIsVertical] = useState(false);
 
     const [showInfo, setShowInfo] = useState(false);
+
+    const [isStandalone, setIsStandalone] = useState(true);
+    const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+
+    const handleInstallClick = async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt()
+
+            const { outcome } = await deferredPrompt.userChoice
+
+            if (outcome === 'accepted') {
+                setIsStandalone(true);
+            }
+
+            setDeferredPrompt(null)
+        }
+    }
   
     useEffect(() => {
+
+        const handleBeforeInstallPrompt = (e: Event) => {
+            e.preventDefault();
+            setDeferredPrompt(e as BeforeInstallPromptEvent);
+        }
+    
+        setIsStandalone(window.matchMedia('(display-mode: standalone)').matches);
+
         function handleFullscreenChange() {
             setIsFullscreen(!!document.fullscreenElement);
             if (!document.fullscreenElement) {
@@ -39,12 +64,14 @@ export default function MoreInfo() {
     
         document.addEventListener('fullscreenchange', handleFullscreenChange);
         window.addEventListener('resize', handleBrowserFullscreenChange);
+        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
         // setIsVertical(window.innerHeight > window.innerWidth);
     
         return () => {
             document.removeEventListener('fullscreenchange', handleFullscreenChange);
             window.removeEventListener('resize', handleBrowserFullscreenChange);
+            window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
         };
     }, []);
 
@@ -69,6 +96,10 @@ export default function MoreInfo() {
             </div> : <div />
         } */}
         <div className={styles.right}>
+            {!isStandalone && <InstallPrompt
+                canActivate={deferredPrompt !== null}
+                handleInstallClick={handleInstallClick}
+            />}
             {!isBrowserFullscreen &&
                 <button onClick={() => toggleFullscreen()}>
                     <Iconify icon={isFullscreen ? "mingcute:fullscreen-exit-fill" : "mingcute:fullscreen-fill"} height={24} />
@@ -110,3 +141,60 @@ export default function MoreInfo() {
     </div>
 
 }
+
+interface BeforeInstallPromptEvent extends Event {
+    prompt: () => Promise<void>;
+    userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+}
+
+interface InstallPromptProps {
+    canActivate?: boolean;
+    handleInstallClick: () => void;
+}
+
+function InstallPrompt({ canActivate, handleInstallClick }: InstallPromptProps) {
+    const [manualInstallString, setManualInstallString] = useState<string>("Install this app inside your browser's menu");
+
+    const [showManualInstall, setShowManualInstall] = useState(false);
+
+    function handleManualInstallClick() {
+        setShowManualInstall(v => !v);
+    }
+   
+    useEffect(() => {
+
+        if (
+            /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
+        ) {
+            setManualInstallString("Tap the share button and select 'Add to Home Screen'");
+        } else if (
+            /Android/.test(navigator.userAgent)
+        ) {
+            setManualInstallString("Tap the menu button and select 'Install' or 'Add to Home Screen > Install'");
+        } else if (
+            /Chrome/.test(navigator.userAgent)
+        ) {
+            setManualInstallString("Tap the install button near the address bar");
+        } else if (
+            /Firefox/.test(navigator.userAgent)
+        ) {
+            setManualInstallString("Install this app via a Firefox PWA extension");
+        }
+    
+    }, []);
+   
+    return (
+      <button className={styles.install} onClick={canActivate ? handleInstallClick : handleManualInstallClick}>
+            <Iconify icon="material-symbols:download" height={24} />
+            <span>Install App</span>
+            { showManualInstall && !canActivate &&
+                <span className={styles.installinfo}>
+                    <span>{manualInstallString}</span>
+                    <span>
+                        <a target='_blank' href={"https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Installing"}>More Info</a>
+                    </span>
+                </span>
+            }
+      </button>
+    )
+  }
