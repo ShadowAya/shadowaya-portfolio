@@ -1,4 +1,3 @@
-import { getStratagemList } from "@/utils/stratle/actions";
 import styles from './RootLayout.module.scss';
 import Image from "next/image";
 import Dashed from "@/components/stratle/Dashed";
@@ -9,8 +8,8 @@ import { GameProvider } from "./context/GameContext";
 import TreasonWarning from "./TreasonWarning";
 import MoreInfo from "./MoreInfo";
 import moment from 'moment-timezone';
-import { type Viewport } from "next";
 import PageWrap from "./PageWrap";
+import { getStratagemListCached } from '@/utils/stratle/utils';
 
 interface LayoutProps {
     children?: React.ReactNode;
@@ -33,7 +32,7 @@ function getRandomIndexByDate(length: number) {
 
 export default async function RootLayout({ children }: LayoutProps) {
 
-    const content = await getStratagemList();
+    const content = await getStratagemListCached();
     const index = getRandomIndexByDate(content.length);
 
     return <div className={styles.layout}>
