@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     siteName: "shadow_aya's portfolio"
   },
   alternates: {
-    canonical: "https://shadowaya.me",
+    canonical: "https://www.shadowaya.me",
   }
 }
 
