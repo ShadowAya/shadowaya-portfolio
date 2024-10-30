@@ -7,7 +7,10 @@ import Image from "next/image";
 import { Metadata } from "next/types";
 
 export const metadata: Metadata = {
-    title: "projects"
+    title: "projects",
+    alternates: {
+        canonical: "https://shadowaya.me/projects",
+    }
 }
 
 export default function Page() {

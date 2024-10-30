@@ -25,6 +25,9 @@ export const metadata: Metadata = {
         card: 'summary_large_image',
         images: ['https://shadowaya.me/hd2-bg.png']
     },
+    alternates: {
+        canonical: "https://shadowaya.me/stratle",
+    },
     manifest: "/stratle-manifest.json",
 }
 

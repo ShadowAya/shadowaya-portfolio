@@ -1,4 +1,19 @@
 import styles from './page.module.scss'
+import { type Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'Kustom Kompiler Docs',
+    description: 'A code to Kustom-syntax compiler - documentation',
+    openGraph: {
+        title: 'Kustom Kompiler Docs',
+        description: 'A code to Kustom-syntax compiler - documentation',
+        url: 'https://shadowaya.me/kustom-kompiler/docs',
+        siteName: 'shadow_aya\'s portfolio'
+    },
+    alternates: {
+        canonical: "https://shadowaya.me/kustom-kompiler/docs",
+    }
+}
 
 export default function Page() {
 

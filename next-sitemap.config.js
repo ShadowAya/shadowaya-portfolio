@@ -25,7 +25,7 @@ function transformPath(loc, changefreq, priority) {
 module.exports = {
     siteUrl: 'https://www.shadowaya.me',
     generateRobotsTxt: true,
-    exclude: ['/stratle', '*.png'],
+    exclude: ['/stratle', '/stratle/library', '*.png'],
     transform: async (config, path) => {
         if (
             path.startsWith('/lethal-calculator') ||

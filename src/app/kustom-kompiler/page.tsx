@@ -1,10 +1,7 @@
 import Code from "@/components/kustom-kompiler/Code";
 
 export const metadata = {
-    title: {
-        default: 'Kustom Kompiler',
-        template: 'Kustom Kompiler - %s'
-    },
+    title: 'Kustom Kompiler',
     description: 'A code to Kustom-syntax compiler',
     openGraph: {
         title: 'Kustom Kompiler',

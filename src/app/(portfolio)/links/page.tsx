@@ -6,13 +6,15 @@ import Opacity from "@/components/ui/computerContents/Opacity";
 import { Metadata } from "next/types";
 
 export const metadata: Metadata = {
-    title: "links"
+    title: "links",
+    alternates: {
+        canonical: "https://shadowaya.me/links",
+    }
 }
 
 export default function Page() {
 
     return (<>
-    
         <ComputerWindow
             top={50}
             left={100}

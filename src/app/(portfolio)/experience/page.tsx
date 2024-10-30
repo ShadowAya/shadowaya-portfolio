@@ -8,7 +8,10 @@ import Spacer from "@/components/ui/keyboardParts/Spacer";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-    title: "experience"
+    title: "experience",
+    alternates: {
+        canonical: "https://shadowaya.me/experience",
+    }
 }
 
 export default function Page() {

@@ -15,11 +15,14 @@ export const metadata: Metadata = {
     applicationName: 'Lethal Calculator',
     icons: '/lethal-calculator.png',
     openGraph: {
-      title: "Lethal Calculator",
-      description: "Lethal Company overtime & store calculator",
-      url: "https://shadowaya.me/lethal-calculator",
-      siteName: "shadow_aya's portfolio"
-    }
+        title: "Lethal Calculator",
+        description: "Lethal Company overtime & store calculator",
+        url: "https://shadowaya.me/lethal-calculator",
+        siteName: "shadow_aya's portfolio"
+    },
+    alternates: {
+        canonical: "https://shadowaya.me/lethal-calculator",
+    },
 }
 
 interface LayoutProps {
