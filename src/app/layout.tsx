@@ -11,6 +11,7 @@ export const metadata: Metadata = {
     template: '%s ・ shadow_aya',
   },
   description: 'ShadowAya\'s personal website',
+  applicationName: 'shadow_aya',
   openGraph: {
     title: "shadow_aya's personal website",
     description: "portfolio, projects, contacts, and more",

@@ -12,6 +12,8 @@ const mono = localFont({
 export const metadata: Metadata = {
     title: "Lethal Calculator",
     description: 'Lethal Company overtime & store calculator',
+    applicationName: 'Lethal Calculator',
+    icons: '/lethal-calculator.png',
     openGraph: {
       title: "Lethal Calculator",
       description: "Lethal Company overtime & store calculator",
