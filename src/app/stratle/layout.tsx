@@ -8,35 +8,35 @@ interface LayoutProps {
 }
 
 export const metadata: Metadata = {
-    title: 'Stratle',
-    description: 'A Wordle Game for HELLDIVERS 2 Stratagems',
-    applicationName: 'Stratle',
-    icons: '/stratle-icon.png',
+    title: "Stratle",
+    description: "A Wordle Game for HELLDIVERS 2 Stratagems",
+    applicationName: "Stratle",
+    icons: "/stratle-icon.png",
     openGraph: {
-        type: 'website',
-        url: 'https://shadowaya.me/stratle',
-        title: 'Stratle',
-        siteName: 'Stratle',
-        description: 'A Wordle Game for HELLDIVERS 2 Stratagems',
-        images: ['https://shadowaya.me/hd2-bg.png']
+        type: "website",
+        url: "https://shadowaya.me/stratle",
+        title: "Stratle",
+        siteName: "Stratle",
+        description: "A Wordle Game for HELLDIVERS 2 Stratagems",
+        images: ["https://shadowaya.me/hd2-bg.png"],
     },
     twitter: {
-        creator: '@shadow_aya_dev',
-        card: 'summary_large_image',
-        images: ['https://shadowaya.me/hd2-bg.png']
+        creator: "@shadow_aya_dev",
+        card: "summary_large_image",
+        images: ["https://shadowaya.me/hd2-bg.png"],
     },
     alternates: {
         canonical: "https://shadowaya.me/stratle",
     },
     manifest: "/stratle-manifest.json",
-}
+};
+
+export const revalidate = 3600;
 
 export default function Layout({ children }: LayoutProps) {
     return (
         <Suspense fallback={<Loading />}>
-            <RootLayout>
-                {children}
-            </RootLayout>
-        </Suspense>  
+            <RootLayout>{children}</RootLayout>
+        </Suspense>
     );
 }

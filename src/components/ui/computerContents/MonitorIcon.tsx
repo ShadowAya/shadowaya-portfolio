@@ -7,9 +7,9 @@ interface MonitorIconProps {
     icon: string | IconifyIcon;
     title: string;
     href?: string;
-    top?: number,
-    left?: number,
-    right?: number,
+    top?: number;
+    left?: number;
+    right?: number;
 }
 
 export default function MonitorIcon({
@@ -20,20 +20,14 @@ export default function MonitorIcon({
     left = 0,
     right = 0,
 }: MonitorIconProps) {
-
     const contents = (
         <>
-            <Iconify
-                width={35}
-                icon={icon}
-            />
+            <Iconify width={35} icon={icon} />
             <span>{title}</span>
         </>
     );
 
-    
     return (
-
         <div
             className={style.icon}
             style={{
@@ -43,14 +37,12 @@ export default function MonitorIcon({
             }}
         >
             {href ? (
-                <Link href={href}>
+                <Link href={href} scroll={false}>
                     {contents}
                 </Link>
             ) : (
                 contents
             )}
         </div>
-
-    )
-
+    );
 }

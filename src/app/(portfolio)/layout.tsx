@@ -8,91 +8,82 @@ import SideNav from "@/components/ui/SideNav";
 import TopWarning from "@/components/ui/TopWarning";
 import MonitorIcon from "@/components/ui/computerContents/MonitorIcon";
 import Loading from "./loadingpage";
-import styles from './layout.module.scss';
-
+import styles from "./layout.module.scss";
 
 const navItems = [
     {
-        icon: 'ant-design:home-outlined',
-        title: 'Home',
-        href: '/',
+        icon: "ant-design:home-outlined",
+        title: "Home",
+        href: "/",
     },
     {
-        icon: 'iconoir:dev-mode-laptop',
-        title: 'Experience',
-        href: '/experience',
+        icon: "iconoir:dev-mode-laptop",
+        title: "Stack",
+        href: "/stack",
     },
     {
-        icon: 'tabler:tools',
-        title: 'Projects',
-        href: '/projects',
+        icon: "tabler:tools",
+        title: "Projects",
+        href: "/projects",
     },
     {
-        icon: 'mingcute:link-line',
-        title: 'Links',
-        href: '/links',
+        icon: "mingcute:link-line",
+        title: "Links",
+        href: "/links",
     },
-]
+];
 
-export default function Layout({
-    children,
-}: {
-  children: React.ReactNode
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
+    return (
+        <>
+            <KeyboardProvider>
+                <ScreenSizeProvider>
+                    <DeviceProvider>
+                        <GlobalEffects>
+                            <TopWarning />
 
-    return (<>
+                            <main className={styles.main}>
+                                <div>
+                                    <Keyboard
+                                        style={{
+                                            scale: 0.5,
+                                        }}
+                                    />
+                                    <div className={styles.monitors}>
+                                        <MonitorMain>{children}</MonitorMain>
+                                        <MonitorSecondary>
+                                            <MonitorIcon
+                                                {...navItems[0]}
+                                                top={200}
+                                                left={100}
+                                            />
+                                            <MonitorIcon
+                                                {...navItems[1]}
+                                                top={320}
+                                                left={-80}
+                                            />
+                                            <MonitorIcon
+                                                {...navItems[2]}
+                                                top={390}
+                                                left={130}
+                                            />
+                                            <MonitorIcon
+                                                {...navItems[3]}
+                                                top={480}
+                                                left={-20}
+                                            />
+                                        </MonitorSecondary>
+                                    </div>
+                                </div>
+                            </main>
 
-        <KeyboardProvider>
-        <ScreenSizeProvider>
-        <DeviceProvider>
-        <GlobalEffects>
-        
-            <TopWarning />
+                            <SideNav items={navItems} />
+                        </GlobalEffects>
+                    </DeviceProvider>
+                </ScreenSizeProvider>
+            </KeyboardProvider>
 
-            <main className={styles.main}><div>
-                <Keyboard
-                    style={{
-                        scale: 0.5,
-                    }}
-                />
-                <div className={styles.monitors}>
-                    <MonitorMain>
-                        {children}
-                    </MonitorMain>
-                    <MonitorSecondary>
-                        <MonitorIcon
-                            {...navItems[0]}
-                            top={200}
-                            left={100}
-                        />
-                        <MonitorIcon
-                            {...navItems[1]}
-                            top={320}
-                            left={-80}
-                        />
-                        <MonitorIcon
-                            {...navItems[2]}
-                            top={390}
-                            left={130}
-                        />
-                        <MonitorIcon
-                            {...navItems[3]}
-                            top={480}
-                            left={-20}
-                        />
-                    </MonitorSecondary>
-                </div>
-            </div></main>
-
-            <SideNav items={navItems} />
-
-        </GlobalEffects>
-        </DeviceProvider>
-        </ScreenSizeProvider>
-        </KeyboardProvider>
-
-        <Loading />
-
-    </>)
-
+            <Loading />
+        </>
+    );
 }

@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import Iconify from '../Iconify';
-import styles from './SideNav.module.scss';
-import { useContext } from 'react';
-import { ScreenSizeContext } from '../context/ScreenSizeContext';
+import Link from "next/link";
+import Iconify from "../Iconify";
+import styles from "./SideNav.module.scss";
+import { useContext } from "react";
+import { ScreenSizeContext } from "../context/ScreenSizeContext";
 
 interface SideNavProps {
     items: {
@@ -15,7 +15,6 @@ interface SideNavProps {
 }
 
 export default function SideNav({ items }: SideNavProps) {
-
     const screen = useContext(ScreenSizeContext);
 
     if (screen?.bigEnoughForSecondMonitor) return null;
@@ -28,15 +27,12 @@ export default function SideNav({ items }: SideNavProps) {
                     key={index}
                     href={item.href}
                     className={styles.item}
+                    scroll={false}
                 >
                     <Iconify icon={item.icon} color="white" width="30" />
-                    <p>
-                        {item.title}
-                    </p>
+                    <p>{item.title}</p>
                 </Link>
             ))}
         </div>
-
-    )
-
+    );
 }
