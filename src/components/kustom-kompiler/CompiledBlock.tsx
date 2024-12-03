@@ -2,7 +2,7 @@ import CodeGenerator from "@/utils/kustom-kompiler/codegen";
 import { Token } from "@/utils/kustom-kompiler/lexer";
 import Parser from "@/utils/kustom-kompiler/parser";
 import { useEffect, useState } from "react";
-import styles from './CompiledBlock.module.scss';
+import styles from "./CompiledBlock.module.scss";
 import Iconify from "../Iconify";
 
 interface CompiledBlockProps {
@@ -10,15 +10,16 @@ interface CompiledBlockProps {
     lexedError: string | null;
 }
 
-export default function CompiledBlock({ tokens, lexedError }: CompiledBlockProps) {
-
+export default function CompiledBlock({
+    tokens,
+    lexedError,
+}: CompiledBlockProps) {
     const [errors, setErrors] = useState<string[]>([]);
-    const [compiled, setCompiled] = useState<string>('');
+    const [compiled, setCompiled] = useState<string>("");
 
     const [collapsed, setCollapsed] = useState(false);
 
     useEffect(() => {
-
         if (!tokens) {
             return;
         }
@@ -40,24 +41,21 @@ export default function CompiledBlock({ tokens, lexedError }: CompiledBlockProps
         } catch (e) {
             setErrors([(e as any).message]);
         }
-
     }, [tokens]);
 
     return (
-        <div
-            className={styles.compiledBlock}
-        >
+        <div className={styles.compiledBlock}>
             <div>
                 <span>Compiled</span>
                 <div />
-                <button
-                    onClick={() => setCollapsed(v => !v)}
-                >
+                <button onClick={() => setCollapsed((v) => !v)}>
                     <Iconify
                         icon="fe:arrow-up"
                         height={24}
                         style={{
-                            transform: collapsed ? 'rotate(180deg)' : 'rotate(0deg)',
+                            transform: collapsed
+                                ? "rotate(180deg)"
+                                : "rotate(0deg)",
                         }}
                     />
                 </button>
@@ -65,17 +63,27 @@ export default function CompiledBlock({ tokens, lexedError }: CompiledBlockProps
             <code
                 className={styles.errors}
                 style={{
-                    display: !collapsed && errors.length ? 'block' : 'none'
+                    display: !collapsed && errors.length ? "block" : "none",
                 }}
-            >{errors.join('\n')}</code>
+            >
+                {errors.join("\n")}
+            </code>
             <code
                 style={{
-                    display: !collapsed && !errors.length && compiled.length ? 'block' : 'none'
+                    display:
+                        !collapsed && !errors.length && compiled.length
+                            ? "block"
+                            : "none",
                 }}
-            >{compiled}</code>
+            >
+                {compiled}
+            </code>
             <button
                 style={{
-                    display: !collapsed && !errors.length && compiled.length ? 'block' : 'none'
+                    display:
+                        !collapsed && !errors.length && compiled.length
+                            ? "block"
+                            : "none",
                 }}
             >
                 <Iconify
@@ -85,6 +93,5 @@ export default function CompiledBlock({ tokens, lexedError }: CompiledBlockProps
                 />
             </button>
         </div>
-    )
-
+    );
 }
