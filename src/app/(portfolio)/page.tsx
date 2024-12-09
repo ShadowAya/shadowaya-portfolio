@@ -32,7 +32,7 @@ export default function Home() {
                 </StackItem>
                 <StackItem>
                     <Iconify width={25} icon="ic:baseline-work" />
-                    Seeking Opportunities
+                    AigoPath s.r.o.
                 </StackItem>
             </ComputerWindow>
             <GuideWindow />
