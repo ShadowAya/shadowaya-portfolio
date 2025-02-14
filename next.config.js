@@ -43,9 +43,7 @@ const nextConfig = {
             }
         ]
     },
-    experimental: {
-        serverComponentsExternalPackages: ['libxmljs'],
-    },
+    serverExternalPackages: ['libxmljs'],
 }
 
 module.exports = withPWA(nextConfig);
