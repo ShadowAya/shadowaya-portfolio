@@ -33,7 +33,7 @@ export default function Page() {
             <ComputerWindow
                 top={200}
                 left={20}
-                height={680}
+                height={580}
                 width={330}
                 delay={0.5}
             >
@@ -54,15 +54,6 @@ export default function Page() {
                         height={45}
                     />
                     <p>Stratle</p>
-                </InlineLink>
-                <InlineLink href={"https://wiseway.cz/"}>
-                    <Image
-                        src="/wiseway.png"
-                        alt="wiseway"
-                        width={45}
-                        height={45}
-                    />
-                    <p>Wiseway</p>
                 </InlineLink>
                 <InlineLink href={"/lethal-calculator"}>
                     <Image
