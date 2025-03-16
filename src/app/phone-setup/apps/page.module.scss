@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tags {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-left: 10px;
+  > div {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-bottom: 5px;
+  }
+}
+
+.tag {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background-color: #333333;
+  color: #fff;
+  font-size: 0.8em;
+  &.active {
+    background-color: #fff;
+    color: #000;
+  }
+}

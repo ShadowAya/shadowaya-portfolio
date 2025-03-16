@@ -1,0 +1,153 @@
+@keyframes flip {
+  25% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(-10deg) scaleX(0);
+  }
+  75% {
+    transform: rotate(-5deg) scaleX(1);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes unflip {
+  25% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(-10deg) scaleX(0);
+  }
+  75% {
+    transform: rotate(-5deg) scaleX(1);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes backIn {
+  0% {
+    opacity: 0;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes backOut {
+  0% {
+    opacity: 1;
+  }
+  99% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes imageIn {
+  0% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes imageOut {
+  33% {
+    top: 10%;
+    left: 20%;
+    width: 50%;
+    height: auto;
+    transform: scale(0.5);
+    filter: contrast(1);
+  }
+  80% {
+    top: 58%;
+    left: 8%;
+    width: 80px;
+    height: 80px;
+    transform: scale(0.5);
+    border-radius: 10px;
+    filter: brightness(0) saturate(100%) invert(15%) sepia(5%) saturate(4220%)
+      hue-rotate(316deg) brightness(94%) contrast(90%);
+    opacity: 1;
+  }
+  100% {
+    top: 58%;
+    left: 8%;
+    width: 80px;
+    height: 80px;
+    transform: scale(0.5);
+    border-radius: 9999px;
+    filter: brightness(0) saturate(100%) invert(15%) sepia(5%) saturate(4220%)
+      hue-rotate(316deg) brightness(94%) contrast(90%);
+    opacity: 0;
+  }
+}
+
+.container {
+  width: 100%;
+  aspect-ratio: 9/19.5;
+  padding: 1.5%;
+  background-color: black;
+  border-radius: 2.5vmin;
+  position: relative;
+
+  pointer-events: none;
+  user-select: none;
+  margin-top: -70px;
+
+  > img {
+    position: absolute;
+    top: 1%;
+    left: 1.5%;
+    width: 97%;
+    height: 97%;
+    border-radius: 2vmin;
+
+    &.imageIn {
+      z-index: 4;
+      animation: imageIn 0.3s ease-in-out both;
+    }
+
+    &.imageOut {
+      z-index: 4;
+      animation: imageOut 0.5s linear both;
+      transform-origin: center;
+    }
+
+    &.imageBg {
+      z-index: 3;
+    }
+  }
+
+  .back {
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    z-index: 6;
+  }
+
+  &.flip {
+    animation: flip 0.5s ease-in-out forwards;
+    .back {
+      animation: backIn 0.25s both;
+    }
+  }
+
+  &.unflip {
+    animation: unflip 0.5s ease-in-out forwards;
+    .back {
+      animation: backOut 0.25s both;
+    }
+  }
+}

@@ -40,6 +40,12 @@ const nextConfig = {
                 hostname: 'helldivers.wiki.gg',
                 port: '',
                 pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'media.shadowaya.me',
+                port: '',
+                pathname: '/**',
             }
         ]
     },
