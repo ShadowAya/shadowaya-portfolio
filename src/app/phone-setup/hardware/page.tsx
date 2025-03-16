@@ -9,7 +9,7 @@ export default function Page() {
       <div className={styles.contents}>
         <div>
           <Iconify icon="ic:outline-crop-portrait" height={30} />
-          <span>6.7"</span>
+          <span>6.7&quot;</span>
           <span>1440x3120 pixels</span>
         </div>
         <div>
@@ -39,7 +39,7 @@ export default function Page() {
           <Iconify icon="tabler:paint" height={30} />
           <span>Skin</span>
           <span>
-            Dbrand's{" "}
+            Dbrand&apos;s{" "}
             <a
               target="__blank"
               href="https://dbrand.com/shop/limited-edition/hydrodip"
@@ -53,7 +53,7 @@ export default function Page() {
           <Iconify icon="iconoir:ev-charge" height={30} />
           <span>Wired Charger</span>
           <span>
-            Anker's{" "}
+            Anker&apos;s{" "}
             <a
               target="__blank"
               href="https://www.anker.com/products/a2637-nano-20w-charger"
