@@ -27,7 +27,9 @@ const filePath = "./src/utils/stratle/stratagems.json";
 export async function getStratagemList() {
   const stratagems: Stratagem[] = [];
 
-  const res = await fetch("https://helldivers.wiki.gg/wiki/Stratagems");
+  const res = await fetch("https://helldivers.wiki.gg/wiki/Stratagems", {
+    cache: "no-store",
+  });
   const html = await res.text();
   // const html = fs.readFileSync('./content.txt', 'utf8');
 
@@ -42,7 +44,7 @@ export async function getStratagemList() {
     );
 
   for (const link of stratagemLinks) {
-    const res = await fetch(link);
+    const res = await fetch(link, { cache: "no-store" });
     const html = await res.text();
     // const html = fs.readFileSync('./content2.txt');
 
