@@ -85,7 +85,6 @@ export async function getStratagemList() {
         ? 0
         : parseInt(cooldownString.replace(" seconds", ""));
 
-    console.log(content.map((v) => v.child(0)?.text()));
     const entry = (
       content.length == 6
         ? {
@@ -93,7 +92,10 @@ export async function getStratagemList() {
             unlockLevel: content[1].child(0)?.text(),
             unlockCost: content[2].child(0)?.text(),
             module: content[3].child(0)?.text(),
-            traits: content[4].child(0)?.text().split("  •  "),
+            traits: content[4]
+              .child(0)
+              ?.text()
+              .split(/ ? ?• ? ?/),
             code: content[5].find(".//img/@src").map((a) =>
               parseArrow(
                 a
@@ -106,8 +108,8 @@ export async function getStratagemList() {
         : content[1].child(0)?.text() == "?"
         ? {
             permitType: content[0].child(0)?.text(),
-            unlockLevel: '?',
-            unlockCost: '?',
+            unlockLevel: "?",
+            unlockCost: "?",
             module: content[2].child(0)?.text(),
             traits: content[3].child(0)?.text().split("  •  "),
             code: content[4].find(".//img/@src").map((a) =>
@@ -118,7 +120,7 @@ export async function getStratagemList() {
                   .replace(/"$/, "")
               )
             ),
-        }
+          }
         : {
             permitType: content[0].child(0)?.text(),
             unlockLevel: "1",
