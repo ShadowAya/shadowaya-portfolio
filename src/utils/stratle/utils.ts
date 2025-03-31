@@ -1,6 +1,5 @@
 import libxmljs from "libxmljs";
-import fs from "fs";
-import path from "path";
+import { unstable_cacheLife as cacheLife } from "next/cache";
 
 export type Stratagem = {
   name: string;
@@ -23,12 +22,15 @@ function parseArrow(arrowImg: string) {
   return "up";
 }
 
-const filePath = path.resolve(
-  process.cwd(),
-  "src/utils/stratle/stratagems.json"
-);
-
 export async function getStratagemList() {
+  "use cache";
+  cacheLife({
+    stale: 60 * 60 * 1, // 1 hour
+    revalidate: 60 * 60 * 24, // 24 hours
+    expire: 60 * 60 * 25, // 25 hours
+  });
+
+  console.log("Fetching stratagems...");
   const stratagems: Stratagem[] = [];
 
   const res = await fetch("https://helldivers.wiki.gg/wiki/Stratagems", {
@@ -201,35 +203,5 @@ export async function getStratagemList() {
 
   stratagems.push(...missionStratagemsParsed);
 
-  fs.writeFileSync(
-    filePath,
-    JSON.stringify(
-      {
-        updatedAt: Date.now(),
-        stratagems,
-      },
-      null,
-      4
-    )
-  );
-
   return stratagems;
-}
-
-export async function getStratagemListCached() {
-  if (!fs.existsSync(filePath)) {
-    return await getStratagemList();
-  }
-
-  const data = JSON.parse(fs.readFileSync(filePath, "utf8")) as {
-    updatedAt: number;
-    stratagems: Stratagem[];
-  };
-
-  if (Date.now() - data.updatedAt > 1000 * 60 * 60 * 24) {
-    // 1 day
-    getStratagemList();
-  }
-
-  return data.stratagems;
 }

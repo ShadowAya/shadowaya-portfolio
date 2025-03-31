@@ -1,8 +1,8 @@
+import MyRepoCardCached from "@/components/MyRepoCardCached";
 import NewBadge from "@/components/NewBadge";
 import PageScroll from "@/components/PageScroll";
 import ComputerWindow from "@/components/ui/computerContents/ComputerWindow";
 import InlineLink from "@/components/ui/computerContents/InlineLink";
-import MyRepoCard from "@/components/ui/computerContents/MyRepoCard";
 import Opacity from "@/components/ui/computerContents/Opacity";
 import Image from "next/image";
 import { Metadata } from "next/types";
@@ -56,11 +56,11 @@ export default function Page() {
         </InlineLink>
         <h3>Via GitHub</h3>
         <div style={{ position: "relative" }}>
-          <MyRepoCard repo={"anchor-card"} />
+          <MyRepoCardCached repo={"anchor-card"} />
           <NewBadge text={"Added to HACS"} />
         </div>
         <div style={{ position: "relative", marginTop: 10 }}>
-          <MyRepoCard repo={"spicetify-ledfx-color-sync"} />
+          <MyRepoCardCached repo={"spicetify-ledfx-color-sync"} />
         </div>
       </ComputerWindow>
       <ComputerWindow
