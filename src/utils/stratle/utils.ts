@@ -1,5 +1,6 @@
 import libxmljs from "libxmljs";
 import fs from "fs";
+import path from "path";
 
 export type Stratagem = {
   name: string;
@@ -22,7 +23,10 @@ function parseArrow(arrowImg: string) {
   return "up";
 }
 
-const filePath = "./src/utils/stratle/stratagems.json";
+const filePath = path.resolve(
+  process.cwd(),
+  "src/utils/stratle/stratagems.json"
+);
 
 export async function getStratagemList() {
   const stratagems: Stratagem[] = [];
