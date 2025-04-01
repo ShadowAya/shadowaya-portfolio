@@ -201,6 +201,7 @@ export async function getStratagemList() {
   const cooldownMap = {
     "SEAF Artillery": 11,
     Ressuply: 180,
+    Hellbomb: 30,
   };
 
   const missionStratagemsParsed = missionStratagems.map((a) => {
