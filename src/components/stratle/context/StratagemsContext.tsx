@@ -22,10 +22,10 @@ type Settings = {
 
 const defaultSettings: Settings = {
   controls: {
-    up: "W",
-    down: "S",
-    left: "A",
-    right: "D",
+    up: "w",
+    down: "s",
+    left: "a",
+    right: "d",
   },
 };
 
