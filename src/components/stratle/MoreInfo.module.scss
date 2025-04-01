@@ -1,162 +1,156 @@
-
-
 .more {
+  z-index: 9;
 
-    z-index: 9;
+  position: fixed;
+  bottom: 0;
+  right: 10px;
 
-    position: fixed;
-    bottom: 0;
-    right: 10px;
+  // width: calc(100% - 40px);
 
-    // width: calc(100% - 40px);
+  display: flex;
+  gap: 10px;
+  //justify-content: space-between;
 
+  // > .left {
+  //     background-color: #000000;
+  //     padding: 5px 10px;
+  //     border-radius: 10px 10px 0 0;
+  //     color: white;
+
+  //     display: flex;
+  //     gap: 10px;
+  //     align-items: center;
+
+  // }
+
+  > .right {
     display: flex;
     gap: 10px;
-    //justify-content: space-between;
 
-    // > .left {
-    //     background-color: #000000;
-    //     padding: 5px 10px;
-    //     border-radius: 10px 10px 0 0;
-    //     color: white;
+    .install {
+      width: auto;
+      font-family: "HD2 Regular";
+      font-size: 15px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 5px 15px;
+      margin-right: 30px;
 
-    //     display: flex;
-    //     gap: 10px;
-    //     align-items: center;
+      outline: 2px solid #303220;
+      margin-top: 2px;
+      height: 38px;
 
-    // }
+      position: relative;
 
-    > .right {
+      &:hover {
+        background-color: #1f201a;
+      }
+
+      > span {
+        margin-top: 2px;
+      }
+
+      .installinfo {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, calc(-100% - 10px));
+
+        width: 200px;
+        background-color: #27261f;
+        padding: 10px;
+        border-radius: 10px;
+
         display: flex;
+        flex-direction: column;
         gap: 10px;
 
-        .install {
-            width: auto;
-            font-family: 'HD2 Regular';
-            font-size: 15px;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            padding: 5px 15px;
-            margin-right: 30px;
-
-            outline: 2px solid #303220;
-            margin-top: 2px;
-            height: 38px;
-
-            position: relative;
-
-            &:hover {
-                background-color: #1f201a;
-            }
-
-            > span {
-                margin-top: 2px;
-            }
-
-            .installinfo {
-                position: absolute;
-                top: 0;
-                left: 50%;
-                transform: translate(-50%, calc(-100% - 10px));
-
-                width: 200px;
-                background-color: #27261f;
-                padding: 10px;
-                border-radius: 10px;
-
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-
-                a {
-                    color: #d9cc35;
-                    text-decoration: none;
-                    border-bottom: 1px dashed #d9cc35;
-                }
-
-            }
-
+        a {
+          color: #d9cc35;
+          text-decoration: none;
+          border-bottom: 1px dashed #d9cc35;
         }
-
-        button {
-            background-color: #000000;
-            border: none;
-            cursor: pointer;
-            padding: 5px 10px;
-            border-radius: 10px 10px 0 0;
-            transition: background-color 0.2s;
-    
-            min-width: 40px;
-            height: 40px;
-    
-            color: #ffffff;
-    
-            &:hover {
-                background-color: #242424;
-            }
-        }
-    
-        .info {
-    
-            position: relative;
-    
-            > div {
-    
-                display: none;
-                font-family: 'HD2 Regular';
-    
-                &.show {
-                    display: flex;
-                }
-    
-                box-shadow: 0px -10px 20px black;
-    
-                position: absolute;
-                bottom: calc(100% + 10px);
-                right: 0;
-    
-                padding: 20px 10px;
-                background-color: #27261f;
-                color: white;
-    
-                border-radius: 10px;
-    
-                width: 500px;
-                max-width: 90vw;
-    
-                flex-direction: column;
-                gap: 20px;
-    
-                a {
-                    color: #d9cc35;
-                    text-decoration: none;
-                    border-bottom: 1px dashed #d9cc35;
-                }
-    
-                span {
-                    text-align: left;
-                    line-height: 20px;
-                    font-size: 15px;
-                }
-    
-                h4 {
-                    min-width: 80px;
-                    margin-right: 10px;
-                    text-align: right;
-                    font-size: 18px;
-                }
-    
-                > div {
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                }
-    
-            }
-        }
-
+      }
     }
 
+    button {
+      background-color: #000000;
+      border: none;
+      padding-bottom: 5px;
+      border-radius: 10px 10px 0 0;
+      transition: background-color 0.2s;
 
+      min-width: 40px;
+      height: 40px;
+
+      color: #ffffff;
+
+      > svg {
+        cursor: pointer;
+        padding: 8px;
+        box-sizing: border-box;
+      }
+
+      &:has(> svg:hover) {
+        background-color: #242424;
+      }
+    }
+
+    .withPopup {
+      position: relative;
+
+      > div {
+        display: none;
+        font-family: "HD2 Regular";
+
+        &.show {
+          display: flex;
+        }
+
+        box-shadow: 0px -10px 20px black;
+
+        position: absolute;
+        bottom: calc(100% + 10px);
+        right: 0;
+
+        padding: 20px 10px;
+        background-color: #27261f;
+        color: white;
+
+        border-radius: 10px;
+
+        width: 500px;
+        max-width: 90vw;
+
+        flex-direction: column;
+        gap: 20px;
+
+        a {
+          color: #d9cc35;
+          text-decoration: none;
+          border-bottom: 1px dashed #d9cc35;
+        }
+
+        span {
+          text-align: left;
+          line-height: 20px;
+          font-size: 15px;
+        }
+
+        h4 {
+          min-width: 80px;
+          margin-right: 10px;
+          text-align: right;
+          font-size: 18px;
+        }
+
+        > div {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+      }
+    }
+  }
 }
