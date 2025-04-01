@@ -154,7 +154,11 @@ export async function getStratagemList() {
         : {
             permitType: content[0].child(0)?.text(),
             unlockLevel: "1",
-            unlockCost: content[1].child(0)?.text().replace(/^\s+/g, ""),
+            unlockCost: content[1]
+              .child(0)
+              ?.text()
+              .replace(/^\s+/g, "")
+              .replace("Medal", "Medals"),
             module: "Warbond",
             traits: content[2].child(0)?.text().split("  •  "),
             code: content[3].find(".//img/@src").map((a) =>
