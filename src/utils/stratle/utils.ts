@@ -30,7 +30,6 @@ export async function getStratagemList() {
     expire: 60 * 60 * 25, // 25 hours
   });
 
-  console.log("Fetching stratagems...");
   const stratagems: Stratagem[] = [];
 
   const res = await fetch("https://helldivers.wiki.gg/wiki/Stratagems", {
@@ -67,10 +66,17 @@ export async function getStratagemList() {
         ?.text() ?? null;
     const content = table.find(".//div[contains(@class, 'pi-data-value')]");
 
-    const statsTable = doc
-      .find("//table[contains(@class, 'wikitable')]/tbody")[0]
-      .childNodes()
-      .map((e) => e.text());
+    const statsTableList = doc.find(
+      "//table[contains(@class, 'wikitable')]/tbody"
+    );
+    let statsTableI = 0;
+    let statsTable: string[];
+    do {
+      statsTable = statsTableList[statsTableI]
+        .childNodes()
+        .map((e) => e.text());
+      statsTableI++;
+    } while (!statsTable.some((a) => a.includes("Uses")));
 
     let usesString = statsTable.find((a) => a.startsWith("\nUses")) ?? "";
     usesString =
@@ -91,7 +97,7 @@ export async function getStratagemList() {
     const cooldown =
       cooldownString === "Unlimited"
         ? 0
-        : parseInt(cooldownString.replace(" seconds", ""));
+        : parseInt(cooldownString.replace(/\D/g, ""));
 
     const entry = (
       content.length == 6
@@ -105,6 +111,22 @@ export async function getStratagemList() {
               ?.text()
               .split(/ ? ?• ? ?/),
             code: content[5].find(".//img/@src").map((a) =>
+              parseArrow(
+                a
+                  .toString()
+                  .replace(/^\s+src="/, "")
+                  .replace(/"$/, "")
+              )
+            ),
+          }
+        : content.length == 5
+        ? {
+            permitType: content[0].child(0)?.text(),
+            unlockLevel: content[1].child(0)?.text(),
+            unlockCost: content[2].child(0)?.text(),
+            module: "Unknown",
+            traits: content[3].child(0)?.text().split("  •  "),
+            code: content[4].find(".//img/@src").map((a) =>
               parseArrow(
                 a
                   .toString()

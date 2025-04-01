@@ -113,8 +113,12 @@ export function StratagemProvider({
     <StratagemsContext.Provider
       value={{
         stratagems,
-        todayIndex,
-        randomIndex,
+        todayIndex: stratagems[todayIndex].code.length
+          ? todayIndex
+          : todayIndex + 1,
+        randomIndex: stratagems[randomIndex].code.length
+          ? randomIndex
+          : randomIndex + 1,
         updateRandomIndex,
         settings,
         updateSettings,
