@@ -14,11 +14,7 @@
 
     transition: transform 0.5s ease-in-out;
 
-    transform:
-        translate(-100%)
-        rotateX(80deg)
-        translateZ(50px)
-    ;
+    transform: translate(-100%) rotateX(80deg) translateZ(50px);
 }
 
 @media (max-height: 600px) {
@@ -28,20 +24,13 @@
 }
 
 @media (max-height: 700px) or (max-width: 500px) {
-
     .container {
-        transform:
-            translate(-100%)
-            rotateX(80deg)
-            translateZ(50px)
+        transform: translate(-100%) rotateX(80deg) translateZ(50px)
             translateY(50px);
-        ;
     }
-
 }
 
 .keyboard {
-
     height: 250px;
     width: 900px;
     padding: 10px;
@@ -51,47 +40,48 @@
     gap: 10px;
 
     transform-style: preserve-3d;
-    * { transform-style: preserve-3d; }
+    & * {
+        transform-style: preserve-3d;
+    }
 
-    transform: translateZ(-50px) translateY(200px);
+    & {
+        transform: translateZ(-50px) translateY(200px);
 
-    background-color: var(--element-col);
+        background-color: var(--element-col);
+    }
 
-    > div {
+    & > div {
         display: flex;
         gap: 10px;
 
-        > div {
+        & > div {
             transition: all 0.2s ease-in-out;
 
             height: 30px;
             width: 30px;
-            
+
             background-color: var(--element-col);
 
             transform: translateZ(10px);
-
         }
 
-        > div.keyPressed {
+        & > div.keyPressed {
             background-color: white;
 
             transform: translateZ(1px);
         }
-
     }
 }
 
 .armrest {
     display: inline-block;
-    
+
     height: 80px;
     width: 900px;
 
     background-color: var(--element-col);
 
     transform: rotateX(-10deg) translateZ(-35px) translateY(200px);
-
 }
 
 .table {
