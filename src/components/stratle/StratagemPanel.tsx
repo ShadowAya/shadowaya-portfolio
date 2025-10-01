@@ -1,11 +1,9 @@
 'use client';
 
-import { useEffect } from "react";
 import Box from "./Box";
 import styles from "./StratagemPanel.module.scss";
 import { useStratagems } from "./context/StratagemsContext";
 import { useGame } from "./context/GameContext";
-import Image from "next/image";
 import Dashed from "./Dashed";
 import { type Stratagem } from "@/utils/stratle/utils";
 import cn from "classnames";
@@ -40,7 +38,7 @@ export default function StratagemPanel({ staticStratagem }: StratagemPanelProps)
                 <div className={styles.icon}>
                     {!stratagem.icon || (!staticStratagem && ((gameMeta.currentGame === 'daily' || !game.didLose) && !game.didWin)) ?
                         <Dashed height="72px" width="72px" small /> :
-                        <Image
+                        <img
                             src={'https://helldivers.wiki.gg/' + stratagem.icon}
                             width={72}
                             height={72}
