@@ -213,8 +213,8 @@ export default function Inputs() {
             <div key={i} className={styles.stratagemitem}>
               <div>
                 {stratagem.icon ? (
-                  <Image
-                    src={"https://helldivers.wiki.gg/" + stratagem.icon}
+                  <img
+                    src={stratagem.icon}
                     width={30}
                     height={30}
                     alt={"icon"}

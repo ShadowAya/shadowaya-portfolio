@@ -9,7 +9,7 @@ const withPWA = require("next-pwa")({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     experimental: {
-        dynamicIO: true,
+        cacheComponents: true,
     },
     async redirects() {
         return [
@@ -38,12 +38,6 @@ const nextConfig = {
     },
     images: {
         remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'helldivers.wiki.gg',
-                port: '',
-                pathname: '/**',
-            },
             {
                 protocol: 'https',
                 hostname: 'media.shadowaya.me',

@@ -33,11 +33,11 @@ export default function Page() {
                         stratagems.map((stratagem, index) => (
                             <a className={cn(
                                 styles.item, selectedStratagemIndex === index && styles.selected
-                            )} key={stratagem.name} onClick={() => setSelectedStratagemIndex(index)}>
+                            )} key={stratagem.name + stratagem.icon} onClick={() => setSelectedStratagemIndex(index)}>
                                 <div>
                                     {
-                                        stratagem.icon ? <Image
-                                            src={'https://helldivers.wiki.gg/' + stratagem.icon}
+                                        stratagem.icon ? <img
+                                            src={stratagem.icon}
                                             width={38}
                                             height={38}
                                             alt="icon"

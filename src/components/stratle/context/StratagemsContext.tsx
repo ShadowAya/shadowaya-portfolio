@@ -1,6 +1,6 @@
 "use client";
 
-import { type Stratagem } from "@/utils/stratle/utils";
+import { Stratagem } from "@/utils/stratle/parse-wikitext";
 import { createContext, useContext, useEffect, useState } from "react";
 
 type KeyLocator<T, Prefix extends string = ""> = T extends Record<string, any>
