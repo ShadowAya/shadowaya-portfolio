@@ -34,6 +34,7 @@ async function getRandomIndexByDate(length: number) {
 }
 
 export default async function RootLayout({ children }: LayoutProps) {
+    "use cache";
     const content = await getStratagemList();
     console.log(content.find(v => v.name === "Hellbomb"));
     const index = await getRandomIndexByDate(content.length);
