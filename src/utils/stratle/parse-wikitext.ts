@@ -241,7 +241,7 @@ function parseEntry(wikitext: string) {
             name = data["Icon"].text();
         }
         // Find the table row for this stratagem name
-        const rowRegex = new RegExp(`\\[\\[${name}\\]\\]\\s*\\n.*?\\n`, "si");
+        const rowRegex = new RegExp(`\\[\\[(?:[^\\]\\n]*\\|)*${name}\\]\\]\\s*\\n.*?\\n`, "si");
         const rowMatch = wikitext.match(rowRegex);
         const code = rowMatch ? parseCodeFromWikitext(rowMatch[0]) : [];
         stratagems.push({
@@ -272,7 +272,7 @@ function parseEntry(wikitext: string) {
 ////////////////////////////////// RUN
 
 const USER_AGENT =
-    "Stratle/1.0 (+https://shadowaya.me/stratle; [email protected])";
+    "Stratle/1.0 (+https://shadowaya.me/stratle; contact@shadowaya.me)";
 
 const DEFAULT_DELAY_SEC = 1;
 const DEFAULT_JITTER_SEC = 0.5;
