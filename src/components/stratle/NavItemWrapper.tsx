@@ -4,11 +4,11 @@ import Link from "next/link";
 import { useGame } from "./context/GameContext";
 import styles from "./NavItem.module.scss";
 import cn from "classnames";
-import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
 type NavItemWrapperProps = {
     children: React.ReactNode;
-    link?: string;
+    link: string;
     setMode?: "daily" | "endless";
     selected?: boolean;
 };
@@ -20,30 +20,18 @@ export default function NavItemWrapper({
     selected,
 }: NavItemWrapperProps) {
     const game = useGame();
-    const router = useRouter();
+    const [isPending, startTransition] = useTransition();
 
-    if (link) {
-        return (
-            <Link
-                className={cn(styles.item, selected && styles.selected)}
-                href={link}
-            >
-                {children}
-            </Link>
-        );
-    } else {
-        return (
-            <a
-                className={cn(styles.item, selected && styles.selected)}
-                onClick={() => {
-                    game.changeMode(setMode!);
-                    if (window.location.pathname !== "/stratle/game") {
-                        router.push("/stratle/game");
-                    }
-                }}
-            >
-                {children}
-            </a>
-        );
-    }
+    return (
+        <Link
+            className={cn(styles.item, selected && styles.selected)}
+            href={link}
+            prefetch
+            onClick={() => {
+                startTransition(() => setMode && game.changeMode(setMode));
+            }}
+        >
+            {children}
+        </Link>
+    );
 }

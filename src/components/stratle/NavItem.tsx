@@ -5,7 +5,7 @@ import NavItemWrapper from './NavItemWrapper';
 
 interface NavItemProps {
     selected?: boolean;
-    link?: string;
+    link: string;
     setMode?: 'daily' | 'endless';
     title: string;
     num: number;

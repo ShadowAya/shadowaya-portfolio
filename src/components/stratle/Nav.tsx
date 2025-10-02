@@ -14,8 +14,8 @@ export default function Nav() {
 
     return <div className={styles.nav}>
         <div>
-            <NavItem setMode="daily" title="Daily" num={1} selected={('game' === segment && game.currentGame === 'daily') || !game.currentGame} />
-            <NavItem setMode="endless" title="Endless" num={2} selected={'game' === segment && game.currentGame === 'endless'} />
+            <NavItem link="/stratle/game" setMode="daily" title="Daily" num={1} selected={('game' === segment && game.currentGame === 'daily') || !game.currentGame} />
+            <NavItem link="/stratle/game" setMode="endless" title="Endless" num={2} selected={'game' === segment && game.currentGame === 'endless'} />
             <NavItem link="/stratle/library" title="Library" num={3} selected={'library' === segment} />
         </div>
         {
