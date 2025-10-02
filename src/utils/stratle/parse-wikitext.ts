@@ -158,19 +158,27 @@ function parseStratagemPage(wikitext: string, title: string): Stratagem | null {
         cooldown = modText(statsTemplates.cooldown, { asNumber: true }) ?? 0;
         uses = modText(statsTemplates.uses, { asNumber: true }) ?? 0;
     } else if (statsTables) {
+        let keyOrderCooldown: string[] = []
         const cooldownCell = statsTables.find(
-            (v: any) =>
-                v.col1.text.toLowerCase() === "cooldown" &&
-                v.col2.text.toLowerCase() === "standard"
+            (v: any) => {
+                keyOrderCooldown = Object.keys(v);
+                return v[keyOrderCooldown[0]].text.toLowerCase() === "cooldown" &&
+                v[keyOrderCooldown[1]].text.toLowerCase() === "standard"
+            }
+                
         );
         if (cooldownCell) {
-            cooldown = modText(cooldownCell.col3, { asNumber: true }) ?? 0;
+            cooldown = modText(cooldownCell[keyOrderCooldown[2]], { asNumber: true }) ?? 0;
         }
+        let keyOrderUses: string[] = []
         const usesCell = statsTables.find(
-            (v: any) => v.col1.text.toLowerCase() === "uses"
+            (v: any) => {
+                keyOrderUses = Object.keys(v);
+                return v[keyOrderUses[0]].text.toLowerCase() === "uses"
+            }
         );
         if (usesCell) {
-            uses = modText(usesCell.col2, { asNumber: true }) ?? 0;
+            uses = modText(usesCell[keyOrderUses[1]], { asNumber: true }) ?? 0;
         }
     }
 
