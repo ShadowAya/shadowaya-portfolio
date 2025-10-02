@@ -26,7 +26,11 @@ function hashString(str: string) {
 
 async function getRandomIndexByDate(length: number) {
     "use cache";
-    cacheLife("hours");
+    cacheLife({
+        stale: 60 * 60 * 1, // 1h - faster stale time for better performance
+        revalidate: 60 * 60 * 24, // 1d
+        expire: 60 * 60 * 48, // 2d
+    });
     const currentDate = moment().tz("UTC").format("YYYYMMDD");
     const hash = hashString(currentDate);
 

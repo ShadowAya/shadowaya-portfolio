@@ -26,7 +26,6 @@ export default function NavItemWrapper({
         <Link
             className={cn(styles.item, selected && styles.selected)}
             href={link}
-            prefetch
             onClick={() => {
                 startTransition(() => setMode && game.changeMode(setMode));
             }}
