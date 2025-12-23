@@ -8,9 +8,7 @@ const withPWA = require("next-pwa")({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    experimental: {
-        cacheComponents: true,
-    },
+    cacheComponents: true,
     async redirects() {
         return [
             {

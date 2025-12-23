@@ -10,7 +10,7 @@ import MoreInfo from "./MoreInfo";
 import moment from "moment-timezone";
 import PageWrap from "./PageWrap";
 import { getStratagemList } from "@/utils/stratle/utils";
-import { unstable_cacheLife as cacheLife } from "next/cache";
+import { cacheLife } from "next/cache";
 
 interface LayoutProps {
     children?: React.ReactNode;

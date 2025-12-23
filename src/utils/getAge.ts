@@ -1,5 +1,5 @@
 import moment from "moment-timezone";
-import { unstable_cacheLife as cacheLife } from "next/cache";
+import { cacheLife } from "next/cache";
 
 export async function getAge() {
   "use cache";
