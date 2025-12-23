@@ -27,14 +27,23 @@ export default function Page() {
         <h2>Projects</h2>
         <p>Here&apos;s some of my projects. Feel free to check them out!</p>
       </ComputerWindow>
-      <ComputerWindow top={200} left={20} height={720} width={330} delay={0.5}>
-        <InlineLink href={"https://makogate.com/"}>
-          <Image src="/makogate.png" alt="makogate" width={45} height={45} />
-          <p>Makogate</p>
+      <ComputerWindow top={200} left={20} height={805} width={330} delay={0.5}>
+        <InlineLink href={"https://vkbowling.cz"}>
+          <Image
+            src="/vkb-logo.png"
+            alt="kustom-kompiler"
+            width={45}
+            height={45}
+          />
+          <p>VKBowling site</p>
         </InlineLink>
         <InlineLink href={"/stratle/game"}>
           <Image src="/stratle-icon.png" alt="stratle" width={45} height={45} />
           <p>Stratle</p>
+        </InlineLink>
+        <InlineLink href={"https://makogate.com/"}>
+          <Image src="/makogate.png" alt="makogate" width={45} height={45} />
+          <p>Makogate</p>
         </InlineLink>
         <InlineLink href={"/lethal-calculator"}>
           <Image
