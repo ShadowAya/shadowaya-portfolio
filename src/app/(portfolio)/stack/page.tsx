@@ -172,8 +172,8 @@ export default function Page() {
                 </StackItem>
             </ComputerWindow>
             <ComputerWindow
-                top={530}
-                left={80}
+                top={480}
+                left={230}
                 height={350}
                 width={280}
                 delay={1}
@@ -216,7 +216,7 @@ export default function Page() {
                     </p>
                 </StackItem>
             </ComputerWindow>
-            <ComputerWindow
+            {/* <ComputerWindow
                 top={480}
                 left={380}
                 height={280}
@@ -256,13 +256,6 @@ export default function Page() {
                         </Opacity>
                     </p>
                 </StackItem>
-                {/* <StackItem>
-                <Iconify icon="icon-park-twotone:chip" color="white" width="30" />
-                <p>
-                    More Hardware
-                    <Opacity opacity={0.7}> (namely ESP32)</Opacity>
-                </p>
-            </StackItem> */}
                 <StackItem>
                     <Iconify
                         icon="material-symbols:android"
@@ -277,7 +270,7 @@ export default function Page() {
                         </Opacity>
                     </p>
                 </StackItem>
-            </ComputerWindow>
+            </ComputerWindow> */}
         </PageScroll>
     );
 }
