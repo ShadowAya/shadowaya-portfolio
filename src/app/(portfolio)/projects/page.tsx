@@ -27,15 +27,19 @@ export default function Page() {
         <h2>Projects</h2>
         <p>Here&apos;s some of my projects. Feel free to check them out!</p>
       </ComputerWindow>
-      <ComputerWindow top={200} left={20} height={805} width={330} delay={0.5}>
+      <ComputerWindow top={200} left={20} height={895} width={330} delay={0.5}>
         <InlineLink href={"https://vkbowling.cz"}>
           <Image
             src="/vkb-logo.png"
-            alt="kustom-kompiler"
+            alt="vkbowling"
             width={45}
             height={45}
           />
           <p>VKBowling site</p>
+        </InlineLink>
+        <InlineLink href={"https://makevr.video"}>
+          <Image src="/makevr-icon.png" alt="makevr.video" width={45} height={45} />
+          <p>MakeVR.video</p>
         </InlineLink>
         <InlineLink href={"/stratle/game"}>
           <Image src="/stratle-icon.png" alt="stratle" width={45} height={45} />
@@ -48,7 +52,7 @@ export default function Page() {
         <InlineLink href={"/lethal-calculator"}>
           <Image
             src="/lethal-calculator.png"
-            alt="lethal-calculator"
+            alt="lethal calculator"
             width={45}
             height={45}
           />
@@ -57,7 +61,7 @@ export default function Page() {
         <InlineLink href={"/kustom-kompiler"}>
           <Image
             src="/kustom-kompiler.png"
-            alt="kustom-kompiler"
+            alt="kustom kompiler"
             width={45}
             height={45}
           />
